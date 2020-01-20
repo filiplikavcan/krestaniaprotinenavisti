@@ -15,6 +15,7 @@
         {% set meta_description = 'My, občania Slovenskej republiky hlásiaci sa ku kresťanskej viere, sme presvedčení, že kresťanstvo je náboženstvo šíriace pokoj, pravdu a úctu ku každému človeku.' %}
         {% set fb_share_version = fb_share_version | default(1) %}
         {% set image_url = absolute_url(asset('build/images/quote-' ~ fb_share_version ~ '.jpg')) %}
+        {% set site_url = url('homepage', {version: fb_share_version}) %}
 
         <meta charset="UTF-8">
         <title>{% block title %}{{ meta_title }}{% endblock %}</title>
@@ -28,11 +29,11 @@
         <meta property="og:title" content="{{ meta_title }}" />
         <meta property="og:description" content="{{ meta_description }}" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="{{ url('homepage') }}" />
+        <meta property="og:url" content="{{ site_url }}" />
         <meta property="og:image" content="{{ image_url }}" />
 
         <meta property="twitter:card" content="summary_large_image">
-        <meta property="twitter:url" content="{{ url('homepage') }}">
+        <meta property="twitter:url" content="{{ site_url }}">
         <meta property="twitter:title" content="{{ meta_title }}">
         <meta property="twitter:description" content="{{ meta_description }}">
         <meta property="twitter:image" content="{{ image_url }}">
@@ -55,7 +56,7 @@
                         </div>
                         <div class="col-md-12" style="text-align: center;">
                             <a class="btn btn-lg" style="background: #4267b2; color: white" href="http://www.facebook.com/sharer/sharer.php?{{ {
-                                'u': url('homepage', {version: fb_share_version}),
+                                'u': site_url,
                                 'title': meta_title,
                             }|url_encode }}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
                                 <i class="fa fa-facebook"></i> <b>Zdieľaj túto výzvu na Facebooku</b>
