@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HomepageController extends AbstractController
 {
-    public function index(Request $request, Signature $signatureModel, Swift_Mailer $mailer)
+    public function index($version = 1, Request $request, Signature $signatureModel, Swift_Mailer $mailer)
     {
         $signature = $signatureModel->create();
 
@@ -29,6 +29,7 @@ class HomepageController extends AbstractController
         }
 
         return $this->render('Homepage/index.html.twig', [
+            'fb_share_version' => $version,
             'form' => $form->createView(),
             'last_signatures' => $signatureModel->lastVisibleSignatures(),
             'signatures_count' => $signatureModel->signaturesCount(),
