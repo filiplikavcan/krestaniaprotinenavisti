@@ -43,7 +43,7 @@ class SignatureType extends AbstractType
                 'required' => false,
             ])
             ->add('allow_display', CheckboxType::class, [
-                'label' => 'Súhlasím so zverejnením môjho mena a povolaniapri texte vyhlásenia na webstránke.',
+                'label' => 'Súhlasím so zverejnením môjho mena a povolania pri texte vyhlásenia na webstránke.',
                 'required' => false,
             ])
             ->add('agree_with_support_statement', CheckboxType::class, [
