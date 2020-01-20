@@ -11,8 +11,30 @@
           gtag('config', 'UA-89055843-2');
         </script>
 
+        {% set meta_title = 'Kresťania proti nenávisti' %}
+        {% set meta_description = 'My, občania Slovenskej republiky hlásiaci sa ku kresťanskej viere, sme presvedčení, že kresťanstvo je náboženstvo šíriace pokoj, pravdu a úctu ku každému človeku.' %}
+        {% set image_url = absolute_url(asset('build/images/quote1.jpg')) %}
+
         <meta charset="UTF-8">
-        <title>{% block title %}Kresťania proti nenávisti{% endblock %}</title>
+        <title>{% block title %}{{ meta_title }}{% endblock %}</title>
+        <base href="/">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="title" content="{{ meta_title }}">
+        <meta name="description" content="{{ meta_description }}">
+        <meta name="keywords" content="voľby, kresťania, iniciatíva, 2020">
+
+        <meta property="og:title" content="{{ meta_title }}" />
+        <meta property="og:description" content="{{ meta_description }}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="{{ url('homepage', []) }}" />
+        <meta property="og:image" content="{{ image_url }}" />
+
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{ url('homepage', []) }}">
+        <meta property="twitter:title" content="{{ meta_title }}">
+        <meta property="twitter:description" content="{{ meta_description }}">
+        <meta property="twitter:image" content="{{ image_url }}">
 
         <link rel="stylesheet" href="{{ asset('build/app.css') }}">
         <link rel="icon" type="image/x-icon" href="/favicon.ico">

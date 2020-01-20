@@ -1,6 +1,6 @@
 {% extends 'layout.html.twig' %}
 
-{% set form_enabled = false %}
+{% set form_enabled = true %}
 
 {% macro formTextField(field) %}
     <div class="form-field">
@@ -96,18 +96,15 @@
                     <div class="col-md-4">
                         <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať vyhlásenie</a>
 
-                        <h2 class="signatures-title">Podpísaní (2451):</h2>
+                        <h2 class="signatures-title">Podpísaní ({{ signatures_count }}):</h2>
 
                         <div class="signatures-list">
-                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
-                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
-                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
-                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
-                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
-                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
+                            {% for signature in last_signatures %}
+                                {{ signature.firstName }} {{ signature.lastName }}{% if signature.occupation is not null %}<span class="signature-occupation">, {{ signature.occupation }}</span>{% endif %}<br>
+                            {% endfor %}
                         </div>
 
-                        <a href="#" class="signatures-all-link">Všetci podpísaní &gt;</a>
+                        <a href="{{ url('list') }}" class="signatures-all-link">Všetci podpísaní &gt;</a>
                     </div>
                     <div class="col-md-12">
                         <hr>

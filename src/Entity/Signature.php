@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use DateTimeImmutable;
+
 class Signature
 {
+    protected $id;
     protected $first_name;
     protected $last_name;
     protected $email;
@@ -12,6 +15,73 @@ class Signature
     protected $allow_display = true;
     protected $agree_with_support_statement;
     protected $agree_with_contact_later;
+    protected $hash;
+    protected $createdAt;
+    protected $verifiedAt;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
+     * @param mixed $hash
+     */
+    public function setHash($hash): void
+    {
+        $this->hash = $hash;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVerifiedAt(): ?DateTimeImmutable
+    {
+        return $this->verifiedAt;
+    }
+
+    /**
+     * @param mixed $verifiedAt
+     */
+    public function setVerifiedAt($verifiedAt): void
+    {
+        $this->verifiedAt = $verifiedAt;
+    }
 
     /**
      * @return mixed

@@ -13,4 +13,9 @@ class ArticleController extends AbstractController
     {
         return $this->render('Article/tos.html.twig');
     }
+
+    public function thankYou()
+    {
+        return $this->render('Article/thankYou.html.twig');
+    }
 }

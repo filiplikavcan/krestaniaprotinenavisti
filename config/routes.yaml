@@ -1,7 +1,19 @@
-index:
+homepage:
     path: /
     controller: App\Controller\HomepageController::index
 
 tos:
     path: /pravidla-ochrany-osobnych-udajov
     controller: App\Controller\ArticleController::tos
+
+thank_you:
+    path: /dakujeme
+    controller: App\Controller\ArticleController::thankYou
+
+verify:
+    path: /o/{hash}
+    controller: App\Controller\HomepageController::verify
+
+list:
+    path: /signatari
+    controller: App\Controller\HomepageController::list
