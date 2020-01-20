@@ -1,5 +1,7 @@
 {% extends 'layout.html.twig' %}
 
+{% set form_enabled = false %}
+
 {% macro formTextField(field) %}
     <div class="form-field">
         <div class="form-label">
@@ -88,72 +90,72 @@
                         </p>
                     </div>
                 </div>
-{#                <div class="col-md-4">#}
-{#                    <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať vyhlásenie</a>#}
+                {% if form_enabled %}
+                    <div class="col-md-4">
+                        <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať vyhlásenie</a>
 
-{#                    <h2 class="signatures-title">Podpísaní (2451):</h2>#}
+                        <h2 class="signatures-title">Podpísaní (2451):</h2>
 
-{#                    <div class="signatures-list">#}
-{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
-{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
-{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
-{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
-{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
-{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
-{#                    </div>#}
+                        <div class="signatures-list">
+                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
+                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
+                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
+                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
+                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
+                            Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>
+                        </div>
 
-{#                    <a href="#" class="signatures-all-link">Všetci podpísaní &gt;</a>#}
-{#                </div>#}
-{#                <div class="col-md-12">#}
-{#                    <hr>#}
-{#                </div>#}
+                        <a href="#" class="signatures-all-link">Všetci podpísaní &gt;</a>
+                    </div>
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                {% endif %}
             {% endif %}
-{#            <div class="col-12">#}
-{#                <div class="form-holder">#}
-{#                    <div class="row">#}
-{#                        {% if not form.vars.submitted %}#}
-{#                            <div class="col-md-6">#}
-{#                                <div class="form-title-holder">#}
-{#                                    <h2 class="form-title"><div><span>Podpísať<small>vyhlásenie</small></span></div></h2>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        {% endif %}#}
-{#                        <div class="col-md-6" id="podpisat-vyhlasenie">#}
-{#                            <div class="form-form-holder">#}
-{#                                {% if form.vars.submitted %}#}
-{#                                    <h2 class="form-title-simple">Podpísať vyhlásenie</h2>#}
-{#                                {% endif %}#}
+            {% if form_enabled %}
+                <div class="col-12">
+                    <div class="form-holder">
+                        <div class="row">
+                            {% if not form.vars.submitted %}
+                                <div class="col-md-6">
+                                    <div class="form-title-holder">
+                                        <h2 class="form-title"><div><span>Podpísať<small>vyhlásenie</small></span></div></h2>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="col-md-6" id="podpisat-vyhlasenie">
+                                <div class="form-form-holder">
+                                    {% if form.vars.submitted %}
+                                        <h2 class="form-title-simple">Podpísať vyhlásenie</h2>
+                                    {% endif %}
 
-{#                                {% if form.vars.errors is not empty %}#}
-{#                                    <div class="form-errors">#}
-{#                                        Prosím, vyplňte všetky povinné údaje.#}
-{#                                    </div>#}
-{#                                {% endif %}#}
+                                    {{ form_start(form) }}
+                                        {% if form.vars.errors.form.getErrors(true) is not empty %}
+                                            <div class="form-errors">
+                                                Prosím, vyplňte všetky povinné údaje.
+                                            </div>
+                                        {% endif %}
 
-{#                                {{ form_start(form) }}#}
-{#                                    <div>#}
-{#                                        {{ form_errors(form) }}#}
-{#                                    </div>#}
+                                        {{ _self.formTextField(form.first_name) }}
+                                        {{ _self.formTextField(form.last_name) }}
+                                        {{ _self.formTextField(form.email) }}
+                                        {{ _self.formTextField(form.city) }}
+                                        {{ _self.formTextField(form.occupation) }}
+                                        {{ _self.formCheckboxField(form.allow_display) }}
+                                        {{ _self.formCheckboxField(form.agree_with_support_statement) }}
+                                        {{ _self.formCheckboxField(form.agree_with_contact_later) }}
 
-{#                                    {{ _self.formTextField(form.first_name) }}#}
-{#                                    {{ _self.formTextField(form.last_name) }}#}
-{#                                    {{ _self.formTextField(form.email) }}#}
-{#                                    {{ _self.formTextField(form.city) }}#}
-{#                                    {{ _self.formTextField(form.occupation) }}#}
-{#                                    {{ _self.formCheckboxField(form.allow_display) }}#}
-{#                                    {{ _self.formCheckboxField(form.agree_with_support_statement) }}#}
-{#                                    {{ _self.formCheckboxField(form.agree_with_contact_later) }}#}
-
-{#                                    <small class="form-required-label">* Povinné údaje</small>#}
-{#                                    <div class="form-submit-field">#}
-{#                                        {{ form_widget(form.sign) }}#}
-{#                                    </div>#}
-{#                                {{ form_end(form) }}#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
+                                        <small class="form-required-label">* Povinné údaje</small>
+                                        <div class="form-submit-field">
+                                            {{ form_widget(form.sign) }}
+                                        </div>
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
