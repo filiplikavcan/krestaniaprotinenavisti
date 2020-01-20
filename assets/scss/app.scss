@@ -1,0 +1,355 @@
+@import "~bootstrap/scss/bootstrap";
+@import "functions";
+@import "fonts";
+
+$purple: #591c48;
+$light-purple: #eee8ec;
+$red: #c72929;
+$light-red: #c7a5a7;
+$orange: #f9b22a;
+$white: #ffffff;
+
+$logo-zoom: 0.8;
+$logo-circle-diameter: 756px * $logo-zoom;
+$logo-width: 300px * $logo-zoom;
+$logo-height: 90px * $logo-zoom;
+$logo-padding: $logo-height / 1.5;
+
+$logo-circle-hidden-height: $logo-circle-diameter - $logo-height - $logo-padding * 2;
+
+body {
+  padding-top: $logo-circle-diameter - $logo-circle-hidden-height + 40px;
+  color: $purple;
+}
+
+.logo {
+  background-color: $purple;
+  border-radius: 50%;
+  width: $logo-circle-diameter;
+  height: $logo-circle-diameter;
+
+  position: absolute;
+  top: -$logo-circle-hidden-height;
+  left: -(($logo-circle-diameter - $logo-width) / 2 - $logo-padding * 0.8);
+}
+
+.logo-image {
+  width: $logo-width;
+  height: $logo-height;
+
+  display: block;
+  position: absolute;
+  left: (($logo-circle-diameter - $logo-width) / 2);
+  bottom: $logo-padding * 1.1;
+}
+
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid $purple;
+  opacity: 0.3;
+  margin: psd2px(60) 0;
+}
+
+.perex {
+  text-transform: uppercase;
+  max-width: 740px;
+}
+
+.perex-title {
+  font-family: "GilroyExtraBold", serif;
+  font-size: psd2px(67);
+  margin-bottom: psd2px(20);
+}
+
+.perex-text {
+  font-family: "GilroyLight", serif;
+  text-transform: uppercase;
+  font-size: psd2px(24);
+  line-height: psd2px(42);
+  margin: 0;
+}
+
+.body {
+  p {
+    font-family: "OpenSansRegular", serif;
+    font-size: psd2px(16);
+    line-height: psd2px(24);
+
+    &:last-child {
+      margin: 0;
+    }
+  }
+
+  strong {
+    font-family: "OpenSansBold", serif;
+  }
+}
+
+.signatures-title {
+  font-family: "GilroyExtraBold", serif;
+  font-size: psd2px(30);
+  text-transform: uppercase;
+  margin-top: psd2px(50);
+  margin-bottom: psd2px(15);
+}
+
+.signatures-all-link {
+  color: $purple;
+  font-size: psd2px(16);
+  line-height: psd2px(24);
+  display: block;
+  margin-top: psd2px(20);
+  text-decoration: underline;
+
+  &:hover {
+    color: $purple;
+  }
+}
+
+.form-submit-field button,
+.signature-button {
+  display: block;
+  width: 100%;
+  text-align: left;
+
+  border: none;
+  outline: none;
+
+  font-family: "GilroyExtraBold", serif;
+  font-size: psd2px(20);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+
+  background-color: $orange;
+  color: $purple;
+
+  padding: 14px 60px 10px 20px;
+  border-radius: 5px;
+  position: relative;
+
+  &:hover {
+    color: $purple;
+    text-decoration: none;
+    opacity: 0.85;
+  }
+
+  &:after {
+    content: '';
+    display: block;
+    width: 30px;
+    position: absolute;
+    background-image: url(../images/icon-pencil.png);
+    background-repeat: no-repeat;
+    background-position: center left;
+    background-size: contain;
+    right: 20px;
+    bottom: 0;
+    top: 0;
+  }
+}
+
+.form-submit-field button {
+  padding: 14px 20px 10px 20px;
+  text-align: center;
+
+  &:after {
+    content: none;
+  }
+}
+
+.signatures-list {
+  font-family: "OpenSansBold", serif;
+  font-size: psd2px(14);
+  line-height: psd2px(24);
+}
+
+.signature-occupation {
+  font-family: "OpenSansRegular", serif;
+  font-size: psd2px(12);
+}
+
+.form-holder {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-title-holder {
+  padding-right: 30px;
+}
+
+.col-md-6 {
+  & + .col-md-6 {
+    .form-form-holder {
+      padding-left: 30px;
+    }
+  }
+}
+
+.form-title-simple {
+  font-family: "GilroyExtraBold", serif;
+  font-size: psd2px(40);
+  text-transform: uppercase;
+}
+
+.form-title {
+  background-color: $purple;
+  padding-top: 100%;
+  border-radius: 50%;
+  position: relative;
+
+  div {
+    display: flex;
+    align-items: center;
+    position:absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  span {
+    padding: 0 50px;
+    font-family: "GilroyExtraBold", serif;
+    font-size: psd2px(50);
+    text-transform: uppercase;
+    color: $white;
+    letter-spacing: 5px;
+  }
+
+  small {
+    display: block;
+    font-family: "GilroyLight", serif;
+    font-size: psd2px(30);
+  }
+}
+
+.form-label {
+  font-family: "OpenSansRegular", serif;
+  font-size: psd2px(16);
+
+  label {
+    margin-bottom: 5px;
+  }
+}
+
+.form-field {
+  margin-bottom: 10px;
+}
+
+.form-text-field {
+  input {
+    font-family: "OpenSansRegular", serif;
+    font-size: psd2px(20);
+    background-color: $light-purple;
+    color: $purple;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    padding: 6px 8px;
+  }
+
+  &.has-error {
+    input {
+      border: 1px solid $red;
+    }
+  }
+}
+
+.form-checkbox-field {
+  display: flex;
+  margin-top: 20px;
+
+  input {
+    display: inline;
+    margin: 3px 0 0 0;
+  }
+
+  label {
+    display: inline;
+    margin: 0 0 0 10px;
+    font-family: "OpenSansRegular", serif;
+    font-size: psd2px(16);
+
+    a {
+      color: $purple;
+      text-decoration: underline;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}
+
+.form-errors {
+  color: $red;
+  font-family: "OpenSansBold", serif;
+  font-size: psd2px(20);
+  margin: 0 0 20px 0;
+}
+
+.form-field-error {
+  color: $red;
+  font-family: "OpenSansBold", serif;
+  font-size: psd2px(14);
+  margin-top: 2px;
+}
+
+.form-required-label {
+  font-family: "OpenSansRegular", serif;
+  font-size: psd2px(12);
+  display: block;
+  margin: 15px 0 15px 0;
+}
+
+.footer-license {
+  text-align: right;
+  font-family: "OpenSansRegular", serif;
+  font-size: psd2px(14);
+  margin-bottom: 50px;
+}
+
+.footer-links {
+  margin-bottom: 5px;
+  text-align: right;
+  font-family: "OpenSansRegular", serif;
+  font-size: psd2px(14);
+
+  a {
+    color: $purple;
+    text-decoration: underline;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.article {
+  font-family: "OpenSansRegular", serif;
+  max-width: 800px;
+
+  h1 {
+    font-family: "GilroyExtraBold", serif;
+  }
+
+  h2 {
+    font-family: "GilroyExtraBold", serif;
+    font-size: psd2px(26);
+  }
+
+  h3 {
+    font-family: "GilroyExtraBold", serif;
+    font-size: psd2px(20);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}

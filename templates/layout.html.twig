@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+
+        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <div class="page">
+            <a href="/" class="logo">
+                <img src="{{ asset('build/images/logo-white.svg') }}" class="logo-image" alt="Logo Kresťania proti nenávisti v tvare kríža vytvoreného z bodiek">
+            </a>
+            {% block body %}{% endblock %}
+            <div class="footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                        <div class="col-sm-6">
+                            <img src="{{ asset('build/images/logo-purple.svg') }}" height="70" alt="Logo Kresťania proti nenávisti v tvare kríža vytvoreného z bodiek">
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="footer-links">
+                                <a href="/pravidla-ochrany-osobnych-udajov">Pravidlá ochrany osobných údajov</a>
+                            </div>
+                            <div class="footer-license">
+                                © 2020 Kresťana proti nenávisti, občianska iniciatíva.<br>
+                                Všetky práva vyhradené.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,3 @@
+@function psd2px($psdValue) {
+  @return #{$psdValue * 0.9}px;
+}

@@ -1,3 +1,7 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\HomepageController::index
+
+tos:
+    path: /pravidla-ochrany-osobnych-udajov
+    controller: App\Controller\ArticleController::tos

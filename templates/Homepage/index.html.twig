@@ -1,0 +1,159 @@
+{% extends 'layout.html.twig' %}
+
+{% macro formTextField(field) %}
+    <div class="form-field">
+        <div class="form-label">
+            {{ form_label(field) }}:{% if field.vars.required %} *{% endif %}
+        </div>
+        <div class="form-text-field{% if field.vars.errors is not empty %} has-error{% endif %}">
+        {{ form_widget(field) }}
+        </div>
+        {% if field.vars.errors is not empty %}
+            <div class="form-field-error">
+            {% for error in field.vars.errors %}
+                {{ error.message }}
+            {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro formCheckboxField(field) %}
+    <div class="form-field{% if field.vars.errors is not empty %} has-error{% endif %}">
+        <div class="form-checkbox-field">
+            {{ form_widget(field) }} <label for="{{ field.vars.id }}">{{ field.vars.label | raw }}{% if field.vars.required %} *{% endif %}</label>
+        </div>
+        {% if field.vars.errors is not empty %}
+            <div class="form-field-error">
+            {% for error in field.vars.errors %}
+                {{ error.message }}
+            {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            {% if not form.vars.submitted %}
+                <div class="col-md-12">
+                    <div class="perex">
+                        <h1 class="perex-title">My, dolupodpísaní</h1>
+
+                        <p class="perex-text">
+                            občania Slovenskej republiky hlásiaci sa ku kresťanskej viere, sme presvedčení, že kresťanstvo je náboženstvo šíriace pokoj, pravdu a úctu ku každému človeku.
+                        </p>
+                    </div>
+                    <hr style="max-width: 740px;">
+                </div>
+                <div class="col-md-8">
+                    <div class="body">
+                        <p>
+                            Veríme, že ak sú tieto hodnoty dennodenne žité, slúžia pre dobro spoločnosti. Preto s úzkostlivou starosťou a s čoraz väčším znepokojením pozorujeme, ako sú kresťanské hodnoty zneužívané na nezdravé rozdeľovanie spoločnosti a budovanie nenávisti. Naše obavy rastú s blížiacimi sa parlamentnými voľbami  a prebiehajúcou kampaňou.
+                        </p>
+                        <p>
+                            Aj keď máme v tomto zmysle výhrady voči viacerým politikom, zvlášť kriticky vnímame strany Kotlebovci – ĽSNS a Vlasť Štefana Harabina. Ich predstavitelia sa totiž radi skrývajú za kresťanské symboly a heslá či účelovo zdôrazňujú tie kresťanské témy, ktoré ľahko pútajú pozornosť. Podľa nášho názoru však zároveň dlhodobo využívajú zavádzanie, klamstvo, dezinformácie a ospravedlňovanie násilia na šírenie nenávisti v našej spoločnosti. Zneužívajú ľudské nešťastie, konflikty v spoločnosti a zlyhávanie štátu na burcovanie emócií, predovšetkým strachu. Sme presvedčení, že rozsievanie strachu a nenávisti je v príkrom rozpore s kresťanstvom – vierou postavenou na nádeji a láske.
+                        </p>
+                        <p>
+                            Uvedomujeme si, že tieto strany často pomenujú závažné spoločenské problémy najhlasnejšie. Ich predstavitelia sa stavajú do role samozvaných spasiteľov Slovenska, ale rozumné a uskutočniteľné riešenia ponúknuť nedokážu. V Banskobystrickom kraji už ĽSNS ukázala, že sľuby vie rozdávať na ulici, no v riadení vecí verejných je neschopná. Na Štefana Harabina zase pravidelne padajú podozrenia, že je spoluzodpovedný za rozklad podstatnej časti súdnictva v našej krajine. Sme presvedčení, že Slovensko potrebuje politikov, ktorí sú schopní skutočne riešiť spoločenské problémy, a nie iba naháňať lacné politické body. Aj keď je lákavé uveriť ich kresťansky znejúcim heslám a symbolom, nesmieme sa nimi nechať zmiasť. Ku kresťanstvu totiž patria všetky jeho hodnoty a nie len tie, ktoré sa momentálne hodia.
+                        </p>
+                        <p>
+                            Na druhej strane rozumieme znepokojeniu kresťanov, ktoré pramení z ohrozenia týchto hodnôt. Preto zároveň odmietame útoky na kresťanské postoje bez snahy o toleranciu v diskusii. Zvlášť nás mrzí, ak prichádzajú z tej časti spoločnosti, od ktorej by sme čakali skôr obhajobu slobody a názorovej plurality. Taktiež nesúhlasíme s relativizovaním a pokriveným výkladom kresťanských hodnôt. Odmietame aj názory, ktoré – v rozpore s dostupnými výsledkami prieskumov – dávajú nám, kresťanom, hlavnú vinu za vysokú voličskú podporu spomenutých strán. Cítime však zodpovednosť za oslovenie tých našich spoluveriacich, ktorí ich podporu zvažujú.
+                        </p>
+                        <p>
+                            Zdôrazňujeme, že obhajobu kresťanských postojov v rôznych spoločenských otázkach považujeme za legitímnu, a ako kresťania a občania si vyhradzujeme právo presadzovať ich demokratickými prostriedkami. Demokracia pre nás totiž znamená hľadanie najlepších riešení pre spoločnosť v pokojnom dialógu. Sme presvedčení, že práve vzájomné rešpektovanie rozdielnych postojov je pre ochranu demokracie nevyhnutné.
+                        </p>
+                        <p>
+                            V týchto mimoriadne dôležitých voľbách, ktoré sa môžu stať historickou križovatkou, naozaj zaváži každý jeden hlas, a preto je veľmi potrebné ísť voliť. Vyzývame veriacich občanov Slovenskej republiky všetkých kresťanských vyznaní, aby sa pri tom  nenechali pomýliť zdanlivo kresťanskou rétorikou, ale aby zverili svoj hlas tým politikom demokratických strán, ktorí skutočné kresťanské hodnoty obhajujú a presadzujú dlhodobo.
+                        </p>
+                        <p>
+                            <strong>Adriena Bartošová</strong>, hudobníčka, vysokoškolský pedagóg<br>
+                            <strong>Veronika Bruncková</strong>, študentka architektúry, aktivistka<br>
+                            <strong>Štefan Bučko</strong>, herec<br>
+                            <strong>Michal Druga</strong>, univerzitný pedagóg, folklorista<br>
+                            <strong>Ondrej Druga</strong>, historik, folklorista<br>
+                            <strong>Heartbeat</strong>, kapela<br>
+                            <strong>Daniel Hevier</strong>, spisovateľ<br>
+                            <strong>Martin Husovský</strong> z kapely Komajota<br>
+                            <strong>Janais</strong>, speváčka<br>
+                            <strong>Andrej Leitner</strong>, informatik, mestský poslanec<br>
+                            <strong>Filip Likavčan</strong>, programátor, aktivista<br>
+                            <strong>Peter Málik</strong>, biblista, Bratská jednota baptistov<br>
+                            <strong>Oliver Mašir</strong>, študent a aktivista<br>
+                            <strong>František Mikloško</strong>, bývalý politik a disident<br>
+                            <strong>Vladimír Palko</strong>, bývalý politik, aktivista<br>
+                            <strong>Dávid Slavkovský</strong>, výkonný riaditeľ projektu GODZONE, mestský poslanec<br>
+                            <strong>Lukáš Valach</strong>, politológ a marketér<br>
+                        </p>
+                    </div>
+                </div>
+{#                <div class="col-md-4">#}
+{#                    <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať vyhlásenie</a>#}
+
+{#                    <h2 class="signatures-title">Podpísaní (2451):</h2>#}
+
+{#                    <div class="signatures-list">#}
+{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
+{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
+{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
+{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
+{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
+{#                        Jožko Mrkvička<span class="signature-occupation">, programátor, aktivista</span><br>#}
+{#                    </div>#}
+
+{#                    <a href="#" class="signatures-all-link">Všetci podpísaní &gt;</a>#}
+{#                </div>#}
+{#                <div class="col-md-12">#}
+{#                    <hr>#}
+{#                </div>#}
+            {% endif %}
+{#            <div class="col-12">#}
+{#                <div class="form-holder">#}
+{#                    <div class="row">#}
+{#                        {% if not form.vars.submitted %}#}
+{#                            <div class="col-md-6">#}
+{#                                <div class="form-title-holder">#}
+{#                                    <h2 class="form-title"><div><span>Podpísať<small>vyhlásenie</small></span></div></h2>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        {% endif %}#}
+{#                        <div class="col-md-6" id="podpisat-vyhlasenie">#}
+{#                            <div class="form-form-holder">#}
+{#                                {% if form.vars.submitted %}#}
+{#                                    <h2 class="form-title-simple">Podpísať vyhlásenie</h2>#}
+{#                                {% endif %}#}
+
+{#                                {% if form.vars.errors is not empty %}#}
+{#                                    <div class="form-errors">#}
+{#                                        Prosím, vyplňte všetky povinné údaje.#}
+{#                                    </div>#}
+{#                                {% endif %}#}
+
+{#                                {{ form_start(form) }}#}
+{#                                    <div>#}
+{#                                        {{ form_errors(form) }}#}
+{#                                    </div>#}
+
+{#                                    {{ _self.formTextField(form.first_name) }}#}
+{#                                    {{ _self.formTextField(form.last_name) }}#}
+{#                                    {{ _self.formTextField(form.email) }}#}
+{#                                    {{ _self.formTextField(form.city) }}#}
+{#                                    {{ _self.formTextField(form.occupation) }}#}
+{#                                    {{ _self.formCheckboxField(form.allow_display) }}#}
+{#                                    {{ _self.formCheckboxField(form.agree_with_support_statement) }}#}
+{#                                    {{ _self.formCheckboxField(form.agree_with_contact_later) }}#}
+
+{#                                    <small class="form-required-label">* Povinné údaje</small>#}
+{#                                    <div class="form-submit-field">#}
+{#                                        {{ form_widget(form.sign) }}#}
+{#                                    </div>#}
+{#                                {{ form_end(form) }}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+        </div>
+    </div>
+{% endblock %}

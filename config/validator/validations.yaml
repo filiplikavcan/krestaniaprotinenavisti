@@ -1,0 +1,19 @@
+App\Entity\Signature:
+  properties:
+    first_name:
+      - NotBlank:
+          message: Prosím, zadajte Vaše krstné meno.
+    last_name:
+      - NotBlank:
+          message: Prosím, zadajte Vaše priezvisko.
+    email:
+      - NotBlank:
+          message: Prosím, zadajte Vašu emailovú adresu.
+      - Email:
+          message: Emailová adresa nie je správna.
+    city:
+      - NotBlank:
+          message: Prosím, zadajte mesto/obec.
+    agree_with_support_statement:
+      - NotBlank:
+          message: Ak sa chcete podpísať, tak musíte súhlasiť zo spracovaním osobných údajov pre účely podpory Iniciatívy.
