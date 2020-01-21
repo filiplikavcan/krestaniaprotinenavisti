@@ -398,6 +398,8 @@ hr {
   right: 20px;
 
   a {
+    font-family: "OpenSansRegular", serif;
+    font-size: psd2px(16);
     color: $purple;
 
     &:hover {
@@ -417,4 +419,12 @@ hr {
     right: 20px;
     text-align: right;
   }
+}
+
+.main-fb-share-button {
+  font-family: "OpenSansRegular", serif;
+}
+
+.fb-banner {
+  width: 100%;
 }
