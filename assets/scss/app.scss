@@ -391,3 +391,30 @@ hr {
     text-decoration: underline;
   }
 }
+
+.fb-page-link {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  a {
+    color: $purple;
+
+    &:hover {
+      color: $purple;
+      opacity: 0.8;
+    }
+
+    img {
+      display: inline-block;
+      margin-left: 10px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    position: relative;
+    top: -20px;
+    right: 20px;
+    text-align: right;
+  }
+}
