@@ -44,9 +44,11 @@
     </head>
     <body>
         <div class="page">
-            <a href="/" class="logo">
-                <img src="{{ asset('build/images/logo-white.svg') }}" class="logo-image" alt="Logo Kresťania proti nenávisti v tvare kríža vytvoreného z bodiek">
-            </a>
+            <div class="logo-holder">
+                <a href="/" class="logo">
+                    <img src="{{ asset('build/images/logo-white.svg') }}" class="logo-image" alt="Logo Kresťania proti nenávisti v tvare kríža vytvoreného z bodiek">
+                </a>
+            </div>
             {% block body %}{% endblock %}
             <div class="footer">
                 <div class="container-fluid">

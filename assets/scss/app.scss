@@ -22,6 +22,16 @@ body {
   color: $purple;
 }
 
+.logo-holder {
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 200px;
+}
+
 .logo {
   background-color: $purple;
   border-radius: 50%;
@@ -53,6 +63,10 @@ hr {
   border-bottom: 1px solid $purple;
   opacity: 0.3;
   margin: psd2px(60) 0;
+
+  @media (max-width: 767px) {
+    margin: psd2px(30) 0;
+  }
 }
 
 .perex {
@@ -64,6 +78,14 @@ hr {
   font-family: "GilroyExtraBold", serif;
   font-size: psd2px(67);
   margin-bottom: psd2px(20);
+
+  @media (max-width: 767px) {
+    font-size: psd2px(48);
+  }
+
+  @media (max-width: 400px) {
+    font-size: psd2px(40);
+  }
 }
 
 .perex-text {
@@ -87,6 +109,10 @@ hr {
 
   strong {
     font-family: "OpenSansBold", serif;
+  }
+
+  @media (max-width: 767px) {
+    margin-bottom: psd2px(40);
   }
 }
 
@@ -180,12 +206,20 @@ hr {
 
 .form-title-holder {
   padding-right: 30px;
+
+  @media (max-width: 767px) {
+    padding-right: 0;
+  }
 }
 
 .col-md-6 {
   & + .col-md-6 {
     .form-form-holder {
       padding-left: 30px;
+
+      @media (max-width: 767px) {
+        padding-left: 0;
+      }
     }
   }
 }
@@ -336,6 +370,10 @@ hr {
 
   h1 {
     font-family: "GilroyExtraBold", serif;
+
+    @media (max-width: 767px) {
+      font-size: psd2px(30);
+    }
   }
 
   h2 {
