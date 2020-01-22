@@ -3,18 +3,17 @@
 {% block body %}
     <div class="container-fluid">
         <div class="article">
-            {% if signature is not null %}
+            {% if signature is null %}
+                <h1>
+                    Ďakujeme!
+                </h1>
+            {% else %}
                 <h1>
                     Ďakujeme{% if was_verified_5_minutes_ago %} {{ signature.firstName }} {{ signature.lastName }}{% endif %}!
                 </h1>
                 <h2>
                     Váš podpis bol overený a pridali ste sa medzi podporovateľov výzvy.
                 </h2>
-            {% else %}
-
-                <h1>
-                    Ďakujeme{% if was_verified_5_minutes_ago %}{{ signature.firstName }} {{ signature.lastName }}{% endif %}!
-                </h1>
             {% endif %}
 
             <p style="margin-top: 50px;">

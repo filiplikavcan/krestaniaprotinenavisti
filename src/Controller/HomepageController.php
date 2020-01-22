@@ -48,6 +48,7 @@ class HomepageController extends AbstractController
     public function verify(string $hash, Signature $signatureModel)
     {
         $signature = $signatureModel->verify($hash);
+
         $wasVerified5MinutesAgo = null === $signature ? false : (300 >= time() - $signature->getVerifiedAt()->getTimestamp());
 
         return $this->render('Homepage/verify.html.twig', [

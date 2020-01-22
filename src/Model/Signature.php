@@ -9,6 +9,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Types\Types;
 use Exception;
+use Generator;
 use function Symfony\Component\String\u;
 
 class Signature
@@ -47,6 +48,55 @@ class Signature
                 allow_display = 1')->fetch()['signatures_count'];
     }
 
+    /**
+     * @param SignatureEntity $signature
+     * @return bool
+     */
+    public function markAsNotified(SignatureEntity $signature): bool
+    {
+        $this->query('
+            UPDATE
+                signature
+            SET
+                last_notified_at = NOW(), 
+                notification_count = :notification_count
+            WHERE
+                id = :id', [
+                    'id' => [$signature->getId(), Types::INTEGER],
+                    'notification_count' => [$signature->getNotificationCount() + 1, Types::INTEGER],
+        ])->execute();
+
+        return true;
+    }
+
+    public function notifiableSignatures(int $limit): Generator
+    {
+        $query = $this->query('
+            SELECT
+                *
+            FROM
+                signature
+            WHERE
+                verified_at IS NULL
+                    AND
+                (
+                    notification_count IS NULL 
+                        OR
+                    notification_count < 2
+                )
+                    AND
+                IFNULL(last_notified_at, created_at) < NOW() - INTERVAL (IFNULL(notification_count, 0) * 3 + 1) DAY
+            ORDER BY 
+                IFNULL(last_notified_at, created_at) ASC 
+            LIMIT 
+                ' . $limit);
+
+        foreach ($query->fetchAll() as $rawData)
+        {
+            yield $this->entity($rawData);
+        }
+    }
+
     public function lastVisibleSignatures()
     {
         $query = $this->query('
@@ -58,7 +108,8 @@ class Signature
                 verified_at IS NOT NULL 
                     AND
                 allow_display = 1
-            ORDER BY verified_at DESC 
+            ORDER BY
+                verified_at DESC 
             LIMIT 50');
 
         foreach ($query->fetchAll() as $rawData)
@@ -78,7 +129,8 @@ class Signature
                 verified_at IS NOT NULL 
                     AND
                 allow_display = 1
-            ORDER BY verified_at DESC');
+            ORDER BY
+                verified_at DESC');
 
         while ($rawData =$query->fetch())
         {
@@ -194,9 +246,11 @@ class Signature
         $signature->setAllowDisplay((boolean) $rawData['allow_display']);
         $signature->setAgreeWithSupportstatement((boolean) $rawData['agree_with_support_statement']);
         $signature->setAgreeWithContactLater((boolean) $rawData['agree_with_contact_later']);
-        $signature->setHash($rawData['email']);
+        $signature->setHash($rawData['hash']);
         $signature->setCreatedAt(DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $rawData['created_at']));
         $signature->setVerifiedAt(null === $rawData['verified_at'] ? null : DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $rawData['verified_at']));
+        $signature->setLastNotifiedAt(null === $rawData['last_notified_at'] ? null : DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $rawData['last_notified_at']));
+        $signature->setNotificationCount(null === $rawData['notification_count'] ? 0 : (int) $rawData['notification_count']);
 
         return $signature;
     }

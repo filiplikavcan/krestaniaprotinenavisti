@@ -18,6 +18,40 @@ class Signature
     protected $hash;
     protected $createdAt;
     protected $verifiedAt;
+    protected $lastNotifiedAt;
+    protected $notificationCount;
+
+    /**
+     * @return mixed
+     */
+    public function getLastNotifiedAt()
+    {
+        return $this->lastNotifiedAt;
+    }
+
+    /**
+     * @param mixed $lastNotifiedAt
+     */
+    public function setLastNotifiedAt($lastNotifiedAt): void
+    {
+        $this->lastNotifiedAt = $lastNotifiedAt;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNotificationCount()
+    {
+        return $this->notificationCount;
+    }
+
+    /**
+     * @param mixed $notificationCount
+     */
+    public function setNotificationCount($notificationCount): void
+    {
+        $this->notificationCount = $notificationCount;
+    }
 
     /**
      * @return mixed
