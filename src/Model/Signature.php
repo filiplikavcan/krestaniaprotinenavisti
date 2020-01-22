@@ -84,7 +84,7 @@ class Signature
             FROM
                 signature
             GROUP BY age
-            ORDER BY age ASC')->fetchAll();
+            ORDER BY age DESC')->fetchAll();
     }
 
     public function create()
