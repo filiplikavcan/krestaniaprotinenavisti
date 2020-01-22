@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HomepageController extends AbstractController
 {
-    public function index($version = 1, Request $request, Signature $signatureModel, Swift_Mailer $mailer)
+    public function index(Request $request, Signature $signatureModel, Swift_Mailer $mailer, $version = 1)
     {
         $signature = $signatureModel->create();
 
@@ -57,8 +57,8 @@ class HomepageController extends AbstractController
 
     private function sendVerificationEmail(SignatureEntity $signature, Swift_Mailer $mailer)
     {
-        $message = (new Swift_Message('Overenie podpisu pod výzvou Kresťania proti nenávisti'))
-            ->setFrom('dakujeme@krestaniaprotinenavisti.sk')
+        $message = (new Swift_Message('Dôležité: Potvrďte svoj podpis pod vyhlásením!'))
+            ->setFrom('dakujeme@krestaniaprotinenavisti.sk', 'Overenie podpisu (Kresťania proti nenávisti)')
             ->setTo($signature->getEmail())
             ->setBody(
                 $this->renderView(

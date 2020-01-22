@@ -1,0 +1,37 @@
+{% extends 'layout.html.twig' %}
+
+{% block body %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    Čas pridania podpisu
+                </th>
+                <th>
+                    Počet overených podpisov
+                </th>
+                <th>
+                    Počet neoverených podpisov
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hour in hours %}
+            <tr>
+                <td>
+                    <small>
+                        od {{ hour.age }}:00:00<br>do {{ hour.age }}:59:59
+                    </small>
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ hour.verified }}
+                </td>
+                <td style="vertical-align: middle;">
+                    {{ hour.unverified }}
+                    <small>({{ hour.unverified_rate|round(2) }}%)</small>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

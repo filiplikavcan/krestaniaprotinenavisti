@@ -72,6 +72,21 @@ class Signature
         }
     }
 
+    public function hourlyStats()
+    {
+        return $this->query('
+            SELECT
+                DATE_FORMAT(created_at, \'%e.%c. %H\') AS age,
+                DATE_FORMAT(created_at, \'%H\') AS `hour`,
+                SUM(IF(verified_at IS NULL, 1, 0)) AS unverified,
+                SUM(IF(verified_at IS NOT NULL, 1, 0)) AS verified,
+                SUM(IF(verified_at IS NULL, 1, 0)) / COUNT(*) * 100 AS unverified_rate
+            FROM
+                signature
+            GROUP BY age
+            ORDER BY age ASC')->fetchAll();
+    }
+
     public function create()
     {
         return new SignatureEntity();

@@ -21,3 +21,7 @@ verify:
 list:
     path: /signatari
     controller: App\Controller\HomepageController::list
+
+stats:
+    path: /secret/d8y38s8d97tf7ad78949t7a/stats
+    controller: App\Controller\StatsController::index
