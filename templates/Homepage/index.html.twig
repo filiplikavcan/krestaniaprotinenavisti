@@ -107,7 +107,7 @@
 
                         <div class="signatures-list">
                             {% for signature in last_signatures %}
-                                {{ signature.firstName }} {{ signature.lastName }}{% if signature.occupation is not null %}<span class="signature-occupation">, {{ signature.occupation }}</span>{% endif %}<br>
+                                {{ signature.firstName }} {{ signature.lastName }}{% if signature.occupation is not null %}<i>, {{ signature.occupation }}</i>{% endif %}<br>
                             {% endfor %}
                         </div>
 

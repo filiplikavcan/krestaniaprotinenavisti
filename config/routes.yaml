@@ -25,3 +25,7 @@ list:
 stats:
     path: /secret/d8y38s8d97tf7ad78949t7a/stats
     controller: App\Controller\StatsController::index
+
+#word_cloud:
+#    path: /secret/d8y38s8d97tf7ad78949t7a/cloud
+#    controller: App\Controller\StatsController::cloud

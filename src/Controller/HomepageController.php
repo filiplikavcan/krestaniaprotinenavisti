@@ -39,6 +39,7 @@ class HomepageController extends AbstractController
     public function list(Signature $signatureModel)
     {
         return $this->render('Homepage/list.html.twig', [
+            'visible_signatures_count' => $signatureModel->visibleSignaturesCount(),
             'signatures' => $signatureModel->allVisibleSignatures(),
             'signatures_count' => $signatureModel->signaturesCount(),
         ]);

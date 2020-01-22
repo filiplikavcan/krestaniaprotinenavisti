@@ -9,10 +9,27 @@
                 <a href="/">Naspäť na text výzvy</a>
             </p>
 
+            <img src="{{ asset('build/images/occupation-word-cloud.png') }}" style="max-width: 100%;">
+
             <div class="signatures-list">
-                {% for signature in signatures %}
-                    {{ signature.firstName }} {{ signature.lastName }}{% if signature.occupation is not null %}<span class="signature-occupation">, {{ signature.occupation }}</span>{% endif %}<br>
-                {% endfor %}
+                <div class="row">
+                    {% set nr_of_columns = 3 %}
+                    {% set column_class = 'col-sm-' ~ (12 / nr_of_columns)|round(0) %}
+                    {% set column_indices = [] %}
+
+                    <div class="{{ column_class }}">
+                        {% for i in 1..(nr_of_columns-1) %}
+                            {% set column_indices = column_indices|merge([(visible_signatures_count / nr_of_columns * i)|round(0, 'floor')]) %}
+                        {% endfor %}
+                        {% for signature in signatures %}
+                            {{ signature.firstName }} {{ signature.lastName }}{% if signature.occupation is not null %}<i>, {{ signature.occupation }}</i>{% endif %}<br>
+
+                            {% if loop.index in column_indices %}
+                                </div><div class="{{ column_class }}">
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

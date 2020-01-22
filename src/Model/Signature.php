@@ -9,6 +9,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Types\Types;
 use Exception;
+use function Symfony\Component\String\u;
 
 class Signature
 {
@@ -31,6 +32,19 @@ class Signature
                 signature
             WHERE
                 verified_at IS NOT NULL')->fetch()['signatures_count'];
+    }
+
+    public function visibleSignaturesCount(): int
+    {
+        return $this->query('
+            SELECT
+                COUNT(*) AS signatures_count
+            FROM
+                signature
+            WHERE
+                verified_at IS NOT NULL
+                    AND
+                allow_display = 1')->fetch()['signatures_count'];
     }
 
     public function lastVisibleSignatures()
@@ -66,10 +80,85 @@ class Signature
                 allow_display = 1
             ORDER BY verified_at DESC');
 
-        foreach ($query->fetchAll() as $rawData)
+        while ($rawData =$query->fetch())
         {
             yield $this->entity($rawData);
         }
+    }
+
+    public function top100OccupationWords()
+    {
+        $synonyms = [
+        ];
+
+        $statement = $this->query('
+            SELECT
+                occupation
+            FROM
+                signature
+            WHERE
+                verified_at IS NOT NULL 
+                    AND
+                allow_display = 1');
+
+        $result = [];
+        $prefixed = [];
+
+        while ($row = $statement->fetch())
+        {
+            if (!empty($row['occupation']))
+            {
+                foreach (preg_split('/[ |\/,\.\-]/', $row['occupation']) as $word)
+                {
+                    $baseWord = u($word)->ascii()->trim()->trim('-')->lower();
+                    $unifiedWord = u($word)->trim()->trim('-')->lower()->toString();
+
+                    $keyWord = $baseWord->slice(0, 6)->toString();
+                    $normalizedWord = $baseWord->toString();
+
+                    if (isset($synonyms[$normalizedWord]))
+                    {
+                        $keyWord = u($synonyms[$keyWord])->slice(0, 6)->toString();
+                    }
+
+                    if (strlen($normalizedWord) > 3)
+                    {
+                        if (!isset($result[$unifiedWord]))
+                        {
+                            $result[$unifiedWord] = 0;
+                        }
+
+                        $result[$unifiedWord]++;
+
+                        if (!isset($prefixed[$keyWord]))
+                        {
+                            $prefixed[$keyWord] = [];
+                        }
+
+                        $prefixed[$keyWord][$unifiedWord] = $unifiedWord;
+                    }
+                }
+            }
+        }
+
+        arsort($result);
+
+        $slice = array_slice($result, 0, 150);
+
+        foreach ($slice as $word => $count)
+        {
+            $keyWord = u($word)->ascii()->trim()->trim('-')->lower()->slice(0, 6)->toString();
+
+            foreach ($prefixed[$keyWord] as $otherWord)
+            {
+                if ($otherWord !== $word)
+                {
+                    $slice[$word] += $result[$otherWord];
+                }
+            }
+        }
+
+        return $slice;
     }
 
     public function hourlyStats()
