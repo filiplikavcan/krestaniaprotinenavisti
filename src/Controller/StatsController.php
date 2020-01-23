@@ -16,6 +16,7 @@ class StatsController extends AbstractController
     public function index(Signature $signatureModel)
     {
         return $this->render('Stats/index.html.twig', [
+            'stats' => $signatureModel->overallStats(),
             'hours' => $signatureModel->hourlyStats(),
         ]);
     }

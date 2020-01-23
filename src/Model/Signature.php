@@ -213,6 +213,18 @@ class Signature
         return $slice;
     }
 
+    public function overallStats()
+    {
+        return $this->query('
+            SELECT
+                SUM(IF(verified_at IS NULL, 1, 0)) AS unverified,
+                SUM(IF(verified_at IS NOT NULL, 1, 0)) AS verified,
+                SUM(IF(verified_at IS NULL, 1, 0)) / COUNT(*) * 100 AS unverified_rate
+            FROM
+                signature
+            LIMIT 1')->fetch();
+    }
+
     public function hourlyStats()
     {
         return $this->query('

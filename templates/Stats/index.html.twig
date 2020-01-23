@@ -1,6 +1,28 @@
 {% extends 'layout.html.twig' %}
 
 {% block body %}
+    <div class="container-fluid">
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-sm-4">
+                <h2>
+                    {{ stats.verified }}<br>
+                    <small>overených</small>
+                </h2>
+            </div>
+            <div class="col-sm-4">
+                <h2>
+                    {{ stats.unverified }}<br>
+                    <small>neoverených</small>
+                </h2>
+            </div>
+            <div class="col-sm-4">
+                <h2>
+                    {{ stats.unverified_rate|round(2) }}%<br>
+                    <small>podiel neoverených</small>
+                </h2>
+            </div>
+        </div>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
