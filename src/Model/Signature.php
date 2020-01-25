@@ -82,10 +82,10 @@ class Signature
                 (
                     notification_count IS NULL 
                         OR
-                    notification_count < 2
+                    notification_count <= 3
                 )
                     AND
-                IFNULL(last_notified_at, created_at) < NOW() - INTERVAL (IFNULL(notification_count, 0) * 3 + 1) DAY
+                IFNULL(last_notified_at, created_at) < NOW() - INTERVAL (IFNULL(notification_count, 0) * 2 + 1) DAY
             ORDER BY 
                 IFNULL(last_notified_at, created_at) ASC 
             LIMIT 

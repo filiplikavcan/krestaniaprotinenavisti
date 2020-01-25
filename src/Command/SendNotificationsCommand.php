@@ -88,10 +88,10 @@ class SendNotificationsCommand extends Command
         if (null === $signature->getVerifiedAt())
         {
             $lastNotifiedAt = $signature->getLastNotifiedAt() ?? $signature->getCreatedAt();
-            $waitPeriodInDays = $signature->getNotificationCount() * 3 + 1;
+            $waitPeriodInDays = $signature->getNotificationCount() * 2 + 1;
             $nDaysAgo = new DateTimeImmutable("$waitPeriodInDays days ago");
 
-            if ($signature->getNotificationCount() < 2 && $lastNotifiedAt < $nDaysAgo)
+            if ($signature->getNotificationCount() <= 3 && $lastNotifiedAt < $nDaysAgo)
             {
                 return true;
             }
