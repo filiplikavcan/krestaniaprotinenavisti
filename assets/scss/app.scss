@@ -434,14 +434,15 @@ hr {
 
 .alert-kpn {
   font-family: "OpenSansRegular", serif;
-  font-size: psd2px(18);
-  color: $white;
-  background-color: $purple;
-  border-color: $purple;
+  font-size: psd2px(16);
+  color: $purple;
+  background-color: lighten($orange, 30%);
+  border-color: lighten($orange, 30%);
   margin-bottom: 40px;
 
   a {
     color: inherit;
     text-decoration: underline;
+    font-family: "OpenSansBold", serif;
   }
 }
