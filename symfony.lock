@@ -87,6 +87,9 @@
     "ocramius/proxy-manager": {
         "version": "2.2.3"
     },
+    "optimaize/nameapi-client-php": {
+        "version": "5.0.0"
+    },
     "php": {
         "version": "7.2"
     },

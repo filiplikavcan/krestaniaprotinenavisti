@@ -431,3 +431,17 @@ hr {
 .fb-banner {
   width: 100%;
 }
+
+.alert-kpn {
+  font-family: "OpenSansRegular", serif;
+  font-size: psd2px(18);
+  color: $white;
+  background-color: $purple;
+  border-color: $purple;
+  margin-bottom: 40px;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}

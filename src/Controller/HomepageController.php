@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\Signature as SignatureEntity;
 use App\Form\Type\SignatureType;
 use App\Model\Signature;
+use org\nameapi\client\services\ServiceFactory;
+use org\nameapi\ontology\input\context\Context;
+use org\nameapi\ontology\input\context\Priority;
 use Swift_Mailer;
 use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -48,6 +51,14 @@ class HomepageController extends AbstractController
     public function verify(string $hash, Signature $signatureModel)
     {
         $signature = $signatureModel->verify($hash);
+
+//        $context = Context::builder()
+//            ->priority(Priority::REALTIME())
+//            ->build();
+//
+//        $serviceFactory = new ServiceFactory('api-key', $context);
+//        $deaDetector = $serviceFactory->emailServices()->disposableEmailAddressDetector();
+//        $result = $deaDetector->isDisposable("abcdefgh@10minutemail.com");
 
         $wasVerified5MinutesAgo = null === $signature ? false : (300 >= time() - $signature->getVerifiedAt()->getTimestamp());
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b411ac438a2bad251f0d49b76e31c77d",
+    "content-hash": "f2329a7910fe2251cc0ea9211141f46b",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1375,6 +1375,39 @@
                 "service proxies"
             ],
             "time": "2019-08-10T08:37:15+00:00"
+        },
+        {
+            "name": "optimaize/nameapi-client-php",
+            "version": "5.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/optimaize/nameapi-client-php.git",
+                "reference": "5ea0b02ddde065adc663fd1bdaf2070b6e52b836"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/optimaize/nameapi-client-php/zipball/5ea0b02ddde065adc663fd1bdaf2070b6e52b836",
+                "reference": "5ea0b02ddde065adc663fd1bdaf2070b6e52b836",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "org\\": "src/org"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "description": "PHP Client for the NameAPI Web Service",
+            "homepage": "https://github.com/optimaize/nameapi-client-php",
+            "time": "2017-08-27T01:32:03+00:00"
         },
         {
             "name": "psr/cache",
