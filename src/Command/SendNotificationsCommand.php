@@ -12,6 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -25,7 +26,7 @@ class SendNotificationsCommand extends Command
     private $router;
     private $mailer;
 
-    public function __construct(Signature $signatureModel, \Twig\Environment $template, RouterInterface $router, Swift_Mailer $mailer)
+    public function __construct(Signature $signatureModel, Environment $template, RouterInterface $router, Swift_Mailer $mailer)
     {
         parent::__construct();
 

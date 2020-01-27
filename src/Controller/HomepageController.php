@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Signature as SignatureEntity;
 use App\Form\Type\SignatureType;
 use App\Model\Signature;
+use Doctrine\DBAL\DBALException;
 use org\nameapi\client\services\ServiceFactory;
 use org\nameapi\ontology\input\context\Context;
 use org\nameapi\ontology\input\context\Priority;
@@ -12,6 +13,7 @@ use Swift_Mailer;
 use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HomepageController extends AbstractController
@@ -87,5 +89,26 @@ class HomepageController extends AbstractController
             );
 
         $mailer->send($message);
+    }
+
+    /**
+     * @param string $hash
+     * @param int $newsletterId
+     * @param Signature $signatureModel
+     * @return Response
+     * @throws DBALException
+     */
+    public function unsubscribe(string $hash, int $newsletterId, Signature $signatureModel)
+    {
+        $signature = $signatureModel->findOneByHash($hash);
+
+        if ($signature instanceof SignatureEntity)
+        {
+            $signatureModel->unsubscribe($signature->getId(), $newsletterId);
+        }
+
+        return $this->render('Homepage/unsubscribe.html.twig', [
+            'signature' => $signature,
+        ]);
     }
 }

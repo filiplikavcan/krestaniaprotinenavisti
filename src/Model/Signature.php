@@ -4,26 +4,14 @@ namespace App\Model;
 
 use App\Entity\Signature as SignatureEntity;
 use DateTimeImmutable;
-use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Driver\Statement;
 use Doctrine\DBAL\Types\Types;
 use Exception;
 use Generator;
 use function Symfony\Component\String\u;
 
-class Signature
+class Signature extends AbstractModel
 {
-    /**
-     * @var Connection
-     */
-    private $connection;
-
-    public function __construct(Connection $connection)
-    {
-        $this->connection = $connection;
-    }
-
     public function signaturesCount(): int
     {
         return $this->query('
@@ -62,11 +50,118 @@ class Signature
                 notification_count = :notification_count
             WHERE
                 id = :id', [
-                    'id' => [$signature->getId(), Types::INTEGER],
-                    'notification_count' => [$signature->getNotificationCount() + 1, Types::INTEGER],
+            'id' => [$signature->getId(), Types::INTEGER],
+            'notification_count' => [$signature->getNotificationCount() + 1, Types::INTEGER],
         ])->execute();
 
         return true;
+    }
+
+    public function markNewsletterSent(int $newsletterId, int $signatureId): bool
+    {
+        try
+        {
+            $this->query('
+                INSERT INTO 
+                    signature_newsletter 
+                (
+                    signature_id, 
+                    newsletter_id, 
+                    sent_at
+                )
+                VALUES
+                (
+                 :signature_id,
+                 :newsletter_id,
+                 NOW()
+                )', [
+                'signature_id' => [$signatureId, Types::INTEGER],
+                'newsletter_id' => [$newsletterId, Types::INTEGER],
+            ]);
+        }
+        catch (Exception $exception)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function newsletterableSignatures(int $newsletterId, int $limit): Generator
+    {
+        $query = $this->query("
+            SELECT
+                {$this->fields()}
+            FROM
+                signature AS s
+            LEFT JOIN
+                signature_newsletter sn 
+            ON
+                s.id = sn.signature_id
+                    AND
+                sn.newsletter_id = :newsletter_id
+            WHERE
+                s.verified_at IS NOT NULL
+                    AND
+                sn.signature_id IS NULL
+                    AND
+                s.agree_with_contact_later = 1
+                    AND
+                s.created_at < NOW() - INTERVAL 1 HOUR
+            ORDER BY 
+                created_at
+            LIMIT 
+                :limit", [
+                    'newsletter_id' => [$newsletterId, Types::INTEGER],
+                    'limit' => [$limit, Types::INTEGER],
+        ]);
+
+        while ($rawData = $query->fetch())
+        {
+            yield $this->entity($rawData);
+        }
+    }
+
+    private function fields()
+    {
+        return '
+            s.id,
+            s.first_name,
+            s.last_name,
+            s.email,
+            s.city,
+            s.occupation,
+            s.allow_display,
+            s.agree_with_support_statement,
+            s.agree_with_contact_later,
+            s.hash,
+            s.created_at,
+            s.verified_at,
+            s.notification_count,
+            s.last_notified_at,
+            s.is_multiple_email_ok';
+    }
+
+    private function entity(array $rawData): SignatureEntity
+    {
+        $signature = new SignatureEntity();
+
+        $signature->setId($rawData['id']);
+        $signature->setFirstName($rawData['first_name']);
+        $signature->setLastName($rawData['last_name']);
+        $signature->setCity($rawData['city']);
+        $signature->setEmail($rawData['email']);
+        $signature->setOccupation($rawData['occupation']);
+        $signature->setAllowDisplay((boolean)$rawData['allow_display']);
+        $signature->setAgreeWithSupportstatement((boolean)$rawData['agree_with_support_statement']);
+        $signature->setAgreeWithContactLater((boolean)$rawData['agree_with_contact_later']);
+        $signature->setHash($rawData['hash']);
+        $signature->setCreatedAt(DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $rawData['created_at']));
+        $signature->setVerifiedAt(null === $rawData['verified_at'] ? null : DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $rawData['verified_at']));
+        $signature->setLastNotifiedAt(null === $rawData['last_notified_at'] ? null : DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $rawData['last_notified_at']));
+        $signature->setNotificationCount(null === $rawData['notification_count'] ? 0 : (int)$rawData['notification_count']);
+
+        return $signature;
     }
 
     public function notifiableSignatures(int $limit): Generator
@@ -132,7 +227,7 @@ class Signature
             ORDER BY
                 verified_at DESC');
 
-        while ($rawData =$query->fetch())
+        while ($rawData = $query->fetch())
         {
             yield $this->entity($rawData);
         }
@@ -245,28 +340,6 @@ class Signature
         return new SignatureEntity();
     }
 
-    private function entity(array $rawData): SignatureEntity
-    {
-        $signature = new SignatureEntity();
-
-        $signature->setId($rawData['id']);
-        $signature->setFirstName($rawData['first_name']);
-        $signature->setLastName($rawData['last_name']);
-        $signature->setCity($rawData['city']);
-        $signature->setEmail($rawData['email']);
-        $signature->setOccupation($rawData['occupation']);
-        $signature->setAllowDisplay((boolean) $rawData['allow_display']);
-        $signature->setAgreeWithSupportstatement((boolean) $rawData['agree_with_support_statement']);
-        $signature->setAgreeWithContactLater((boolean) $rawData['agree_with_contact_later']);
-        $signature->setHash($rawData['hash']);
-        $signature->setCreatedAt(DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $rawData['created_at']));
-        $signature->setVerifiedAt(null === $rawData['verified_at'] ? null : DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $rawData['verified_at']));
-        $signature->setLastNotifiedAt(null === $rawData['last_notified_at'] ? null : DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $rawData['last_notified_at']));
-        $signature->setNotificationCount(null === $rawData['notification_count'] ? 0 : (int) $rawData['notification_count']);
-
-        return $signature;
-    }
-
     /**
      * @param SignatureEntity $signature
      * @return SignatureEntity
@@ -277,8 +350,7 @@ class Signature
         try
         {
             $signature->setHash(md5(random_bytes(32)));
-        }
-        catch (Exception $e)
+        } catch (Exception $e)
         {
             $signature->setHash(md5(rand(1, 10000000) . $signature->getEmail() . rand(1, 10000000)));
         }
@@ -344,23 +416,56 @@ class Signature
         return $signature;
     }
 
-    private function query(string $sql, array $parameters = []): Statement
+    /**
+     * @param string $hash
+     * @return SignatureEntity|null
+     * @throws DBALException
+     */
+    public function findOneByHash(string $hash): ?SignatureEntity
     {
-        $queryParameters = [];
+        $rawData = $this->query("
+            SELECT
+                {$this->fields()}
+            FROM
+                signature AS s
+            WHERE
+                s.hash = :hash
+            LIMIT 1
+            ", [
+            'hash' => [$hash, Types::STRING],
+        ])->fetch();
 
-        foreach ($parameters as $parameterName => $parameter) {
-            $queryParameters[$parameterName] = $parameter;
-        }
+        return false === $rawData ? null : $this->entity($rawData);
+    }
 
-        /** @noinspection PhpUnhandledExceptionInspection */
-        $statement = $this->connection->prepare($sql);
+    /**
+     * @param int $signatureId
+     * @param int $newsletterId
+     * @throws DBALException
+     */
+    public function unsubscribe(int $signatureId, int $newsletterId): void
+    {
+        $this->query('
+            UPDATE 
+                signature 
+            SET 
+                agree_with_contact_later = 0 
+            WHERE 
+                id = :id', [
+            'id' => [$signatureId, Types::INTEGER]
+        ])->execute();
 
-        foreach ($parameters as $name => $value) {
-            $statement->bindValue($name, $value[0], $value[1]);
-        }
-
-        $statement->execute();
-
-        return $statement;
+        $this->query('
+            UPDATE 
+                signature_newsletter 
+            SET 
+                unsubscribed_at = NOW() 
+            WHERE 
+                signature_id = :signature_id
+                    AND
+                newsletter_id = :newsletter_id', [
+            'signature_id' => [$signatureId, Types::INTEGER],
+            'newsletter_id' => [$newsletterId, Types::INTEGER],
+        ])->execute();
     }
 }

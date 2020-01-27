@@ -14,6 +14,10 @@ thank_you:
     path: /dakujeme
     controller: App\Controller\ArticleController::thankYou
 
+unsubscribe:
+    path: /unsubscribe/{hash}/{newsletterId}
+    controller: App\Controller\HomepageController::unsubscribe
+
 verify:
     path: /o/{hash}
     controller: App\Controller\HomepageController::verify
