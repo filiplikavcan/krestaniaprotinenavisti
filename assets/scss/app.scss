@@ -136,6 +136,14 @@ hr {
   }
 }
 
+.form-button-description {
+  font-size: psd2px(16);
+  font-family: "OpenSansRegular", serif;
+  color: darken($orange, 15%);
+  text-align: center;
+  margin-top: 5px;
+}
+
 .form-submit-field button,
 .signature-button {
   display: block;
@@ -156,6 +164,10 @@ hr {
   padding: 14px 60px 10px 20px;
   border-radius: 5px;
   position: relative;
+
+  strong {
+    font-size: psd2px(26);
+  }
 
   &:hover {
     color: $purple;
