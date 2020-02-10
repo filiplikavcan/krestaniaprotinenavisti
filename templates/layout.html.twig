@@ -49,8 +49,13 @@
                     <img src="{{ asset('build/images/logo-white.svg') }}" class="logo-image" alt="Logo Kresťania proti nenávisti v tvare kríža vytvoreného z bodiek">
                 </a>
             </div>
-            <div class="fb-page-link">
-                <a href="https://www.facebook.com/krestaniaprotinenavisti" target="_blank">Viac info o iniciatíve<img src="{{ asset('build/images/icon-fb.png') }}" width="32"></a>
+            <div class="top-menu">
+                <div class="top-menu-link">
+                    <a href="{{ asset('build/files/kpn-vyhlasenie.pdf') }}" target="_blank">Vytlačte si vyhlásenie<img src="{{ asset('build/images/icon-pdf.png') }}" width="32"></a>
+                </div>
+                <div class="top-menu-link">
+                    <a href="https://www.facebook.com/krestaniaprotinenavisti" target="_blank">Sledujte nás<img src="{{ asset('build/images/icon-fb.png') }}" width="32"></a>
+                </div>
             </div>
             {% block body %}{% endblock %}
             <div class="footer">

@@ -406,32 +406,48 @@ hr {
   }
 }
 
-.fb-page-link {
+.top-menu {
+  $space-between: 40px;
+
   position: absolute;
   top: 20px;
   right: 20px;
+  margin-right: -$space-between;
 
-  a {
-    font-family: "OpenSansRegular", serif;
-    font-size: psd2px(16);
-    color: $purple;
+  &-link {
+    display: inline-block;
+    margin-right: $space-between;
 
-    &:hover {
+    a {
+      font-family: "OpenSansRegular", serif;
+      font-size: psd2px(16);
       color: $purple;
-      opacity: 0.8;
-    }
 
-    img {
-      display: inline-block;
-      margin-left: 10px;
+      &:hover {
+        color: $purple;
+        opacity: 0.8;
+      }
+
+      img {
+        display: inline-block;
+        margin-left: 8px;
+      }
     }
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 840px) {
     position: relative;
     top: -20px;
-    right: 20px;
+    right: 0;
+    left: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 20px;
     text-align: right;
+
+    &-link {
+      margin-top: 10px;
+    }
   }
 }
 
