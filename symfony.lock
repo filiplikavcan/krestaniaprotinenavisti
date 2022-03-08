@@ -1,4 +1,7 @@
 {
+    "composer/package-versions-deprecated": {
+        "version": "1.11.99.5"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -22,6 +25,9 @@
     },
     "doctrine/dbal": {
         "version": "v2.10.1"
+    },
+    "doctrine/deprecations": {
+        "version": "v0.5.3"
     },
     "doctrine/doctrine-bundle": {
         "version": "2.0",
@@ -75,23 +81,26 @@
     "doctrine/reflection": {
         "version": "v1.1.0"
     },
+    "doctrine/sql-formatter": {
+        "version": "1.1.2"
+    },
     "egulias/email-validator": {
         "version": "2.1.15"
     },
-    "jdorn/sql-formatter": {
-        "version": "v1.2.17"
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.7"
     },
-    "ocramius/package-versions": {
-        "version": "1.4.2"
+    "laminas/laminas-code": {
+        "version": "3.4.1"
     },
-    "ocramius/proxy-manager": {
-        "version": "2.2.3"
+    "laminas/laminas-eventmanager": {
+        "version": "3.2.1"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.1.1"
     },
     "optimaize/nameapi-client-php": {
         "version": "5.0.0"
-    },
-    "php": {
-        "version": "7.2"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -147,6 +156,9 @@
     },
     "symfony/dependency-injection": {
         "version": "v5.0.2"
+    },
+    "symfony/deprecation-contracts": {
+        "version": "v2.5.0"
     },
     "symfony/doctrine-bridge": {
         "version": "v5.0.2"
@@ -216,19 +228,10 @@
     "symfony/intl": {
         "version": "v5.0.2"
     },
-    "symfony/mime": {
-        "version": "v5.0.2"
-    },
     "symfony/options-resolver": {
         "version": "v5.0.2"
     },
-    "symfony/orm-pack": {
-        "version": "v1.0.7"
-    },
     "symfony/polyfill-intl-grapheme": {
-        "version": "v1.13.1"
-    },
-    "symfony/polyfill-intl-icu": {
         "version": "v1.13.1"
     },
     "symfony/polyfill-intl-idn": {
@@ -242,6 +245,12 @@
     },
     "symfony/polyfill-php73": {
         "version": "v1.13.1"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.25.0"
+    },
+    "symfony/polyfill-php81": {
+        "version": "v1.25.0"
     },
     "symfony/property-access": {
         "version": "v5.0.2"
@@ -306,9 +315,6 @@
             "templates/base.html.twig"
         ]
     },
-    "symfony/twig-pack": {
-        "version": "v1.0.0"
-    },
     "symfony/validator": {
         "version": "4.3",
         "recipe": {
@@ -355,11 +361,5 @@
     },
     "twig/twig": {
         "version": "v3.0.1"
-    },
-    "zendframework/zend-code": {
-        "version": "3.4.1"
-    },
-    "zendframework/zend-eventmanager": {
-        "version": "3.2.1"
     }
 }

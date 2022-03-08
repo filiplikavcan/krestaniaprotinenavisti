@@ -5,6 +5,11 @@
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "composer/package-versions-deprecated": "1.11.99.5",
+        "doctrine/common": "^2",
+        "doctrine/doctrine-bundle": "^2",
+        "doctrine/doctrine-migrations-bundle": "^2",
+        "doctrine/orm": "^2",
         "optimaize/nameapi-client-php": "^5.0",
         "symfony/apache-pack": "^1.0",
         "symfony/console": "5.0.*",
@@ -12,22 +17,25 @@
         "symfony/flex": "^1.3.1",
         "symfony/form": "5.0.*",
         "symfony/framework-bundle": "5.0.*",
-        "symfony/orm-pack": "^1.0",
         "symfony/string": "5.0.*",
         "symfony/swiftmailer-bundle": "^3.4",
         "symfony/templating": "5.0.*",
-        "symfony/twig-pack": "^1.0",
+        "symfony/twig-bundle": "5.0.*",
         "symfony/validator": "5.0.*",
         "symfony/webpack-encore-bundle": "^1.7",
-        "symfony/yaml": "5.0.*"
-    },
-    "require-dev": {
+        "symfony/yaml": "5.0.*",
+        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/twig": "^2.12|^3.0"
     },
     "config": {
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "symfony/flex": true
+        }
     },
     "autoload": {
         "psr-4": {
@@ -66,7 +74,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "5.0.*"
+            "require": "5.*"
         }
     }
 }
