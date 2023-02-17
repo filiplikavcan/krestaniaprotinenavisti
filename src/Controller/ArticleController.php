@@ -18,4 +18,9 @@ class ArticleController extends AbstractController
     {
         return $this->render('Article/thankYou.html.twig');
     }
+
+    public function cookies()
+    {
+        return $this->render('Article/cookies.html.twig');
+    }
 }

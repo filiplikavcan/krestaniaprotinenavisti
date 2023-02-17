@@ -3,19 +3,14 @@
     <head>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-89055843-2"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'UA-89055843-2');
-        </script>
 
         {% set meta_title = 'Kresťania proti nenávisti' %}
         {% set meta_description = 'My, občania Slovenskej republiky hlásiaci sa ku kresťanskej viere, sme presvedčení, že kresťanstvo je náboženstvo šíriace pokoj, pravdu a úctu ku každému človeku.' %}
         {% set fb_share_version = fb_share_version | default(1) %}
         {% set image_url = absolute_url(asset('build/images/quote-' ~ fb_share_version ~ '.jpg')) %}
         {% set site_url = url('homepage', {version: fb_share_version}) %}
+
+        <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="015a6801-96d6-4a05-a5f2-f2afca77bf19" data-blockingmode="auto" type="text/javascript"></script>
 
         <meta charset="UTF-8">
         <title>{% block title %}{{ meta_title }}{% endblock %}</title>
@@ -56,25 +51,11 @@
                 <div class="top-menu-link">
                     <a href="{{ asset('build/files/kpn-vyhlasenie.pdf') }}" target="_blank">Vytlačte si vyhlásenie<img src="{{ asset('build/images/icon-pdf.png') }}" width="26"></a>
                 </div>
-                <div class="top-menu-link">
-                    <a href="https://www.facebook.com/krestaniaprotinenavisti" target="_blank">Sledujte nás<img src="{{ asset('build/images/icon-fb.png') }}" width="32"></a>
-                </div>
             </div>
             {% block body %}{% endblock %}
             <div class="footer">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-12">
-                            <hr>
-                        </div>
-                        <div class="col-md-12" style="text-align: center;">
-                            <a class="btn btn-lg main-fb-share-button" style="background: #4267b2; color: white" href="http://www.facebook.com/sharer/sharer.php?{{ {
-                                'u': site_url,
-                                'title': meta_title,
-                            }|url_encode }}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
-                                Zdieľať túto výzvu na Facebooku
-                            </a>
-                        </div>
                         <div class="col-md-12">
                             <hr>
                         </div>
@@ -84,6 +65,7 @@
                         <div class="col-sm-6">
                             <div class="footer-links">
                                 <a href="/pravidla-ochrany-osobnych-udajov">Pravidlá ochrany osobných údajov</a>
+                                <a href="/cookies">Spravovať cookies</a>
                             </div>
                             <div class="footer-license">
                                 © 2020 Kresťania proti nenávisti, občianska iniciatíva.<br>

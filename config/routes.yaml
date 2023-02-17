@@ -10,6 +10,10 @@ tos:
     path: /pravidla-ochrany-osobnych-udajov
     controller: App\Controller\ArticleController::tos
 
+cookies:
+    path: /cookies
+    controller: App\Controller\ArticleController::cookies
+
 thank_you:
     path: /dakujeme
     controller: App\Controller\ArticleController::thankYou
