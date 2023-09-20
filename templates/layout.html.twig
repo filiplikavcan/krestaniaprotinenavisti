@@ -5,8 +5,8 @@
 
         {% set meta_title = 'Kresťania proti nenávisti' %}
         {% set meta_description = 'My, občania Slovenskej republiky, veríme, že autenticky žité kresťanské hodnoty vo svojej komplexnosti slúžia spoločnému dobru. Výber len niektorých a ich zneužívanie na rozdeľovanie spoločnosti a budovanie nenávisti nemá nič spoločné s posolstvom evanjelia.' %}
-        {% set fb_share_version = fb_share_version | default(1) %}
-        {% set image_url = absolute_url(asset('build/images/quote-' ~ fb_share_version ~ '.jpg')) %}
+        {% set fb_share_version = fb_share_version | default(2023) %}
+        {% set image_url = absolute_url(asset('build/images/quote-' ~ fb_share_version ~ '.png')) %}
         {% set site_url = url('homepage', {version: fb_share_version}) %}
 
         <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="015a6801-96d6-4a05-a5f2-f2afca77bf19" data-blockingmode="auto" type="text/javascript"></script>
