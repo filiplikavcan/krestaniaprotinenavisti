@@ -9,6 +9,8 @@
         {% set image_url = absolute_url(asset('build/images/quote-' ~ fb_share_version ~ '.jpg')) %}
         {% set site_url = url('homepage', {version: fb_share_version}) %}
 
+        <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="015a6801-96d6-4a05-a5f2-f2afca77bf19" data-blockingmode="auto" type="text/javascript"></script>
+
         <meta charset="UTF-8">
         <title>{% block title %}{{ meta_title }}{% endblock %}</title>
         <base href="/">
@@ -73,6 +75,7 @@
                         <div class="col-sm-6">
                             <div class="footer-links">
                                 <a href="/pravidla-ochrany-osobnych-udajov">Pravidlá ochrany osobných údajov</a>
+                                <a href="/cookies">Spravovať cookies</a>
                             </div>
                             <div class="footer-license">
                                 © 2020 - {{ 'now' | date('Y') }} Kresťania proti nenávisti, občianska iniciatíva.<br>
