@@ -32,7 +32,3 @@ services:
     App\EventListener\NotFoundListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
-
-    App\Command\SendNewsletterCommand:
-        arguments:
-            $rootDir: '%kernel.project_dir%'

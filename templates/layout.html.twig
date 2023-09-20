@@ -1,18 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-89055843-2"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'UA-89055843-2');
-        </script>
+        <script defer data-domain="krestaniaprotinenavisti.sk" src="https://plausible.io/js/script.js"></script>
 
         {% set meta_title = 'Kresťania proti nenávisti' %}
-        {% set meta_description = 'My, občania Slovenskej republiky hlásiaci sa ku kresťanskej viere, sme presvedčení, že kresťanstvo je náboženstvo šíriace pokoj, pravdu a úctu ku každému človeku.' %}
+        {% set meta_description = 'My, občania Slovenskej republiky, veríme, že autenticky žité kresťanské hodnoty vo svojej komplexnosti slúžia spoločnému dobru. Výber len niektorých a ich zneužívanie na rozdeľovanie spoločnosti a budovanie nenávisti nemá nič spoločné s posolstvom evanjelia.' %}
         {% set fb_share_version = fb_share_version | default(1) %}
         {% set image_url = absolute_url(asset('build/images/quote-' ~ fb_share_version ~ '.jpg')) %}
         {% set site_url = url('homepage', {version: fb_share_version}) %}
@@ -24,13 +16,13 @@
 
         <meta name="title" content="{{ meta_title }}">
         <meta name="description" content="{{ meta_description }}">
-        <meta name="keywords" content="voľby, kresťania, iniciatíva, 2020">
+        <meta name="keywords" content="kresťania, iniciatíva, spoločnosť, cirkev, demokracia">
 
-        <meta property="og:title" content="{{ meta_title }}" />
-        <meta property="og:description" content="{{ meta_description }}" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="{{ site_url }}" />
-        <meta property="og:image" content="{{ image_url }}" />
+        <meta property="og:title" content="{{ meta_title }}"/>
+        <meta property="og:description" content="{{ meta_description }}"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:url" content="{{ site_url }}"/>
+        <meta property="og:image" content="{{ image_url }}"/>
 
         <meta property="twitter:card" content="summary_large_image">
         <meta property="twitter:url" content="{{ site_url }}">
@@ -51,12 +43,6 @@
             </div>
             <div class="top-menu">
                 <div class="top-menu-link">
-                    <a href="/files/volme-naozaj-krestansky-2020.pdf" target="_blank">Vytlačte si volebného sprievodcu<img src="{{ asset('build/images/icon-pdf.png') }}" width="26"></a>
-                </div>
-                <div class="top-menu-link">
-                    <a href="{{ asset('build/files/kpn-vyhlasenie.pdf') }}" target="_blank">Vytlačte si vyhlásenie<img src="{{ asset('build/images/icon-pdf.png') }}" width="26"></a>
-                </div>
-                <div class="top-menu-link">
                     <a href="https://www.facebook.com/krestaniaprotinenavisti" target="_blank">Sledujte nás<img src="{{ asset('build/images/icon-fb.png') }}" width="32"></a>
                 </div>
             </div>
@@ -67,17 +53,20 @@
                         <div class="col-md-12">
                             <hr>
                         </div>
-                        <div class="col-md-12" style="text-align: center;">
-                            <a class="btn btn-lg main-fb-share-button" style="background: #4267b2; color: white" href="http://www.facebook.com/sharer/sharer.php?{{ {
-                                'u': site_url,
-                                'title': meta_title,
-                            }|url_encode }}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
-                                Zdieľať túto výzvu na Facebooku
-                            </a>
-                        </div>
-                        <div class="col-md-12">
-                            <hr>
-                        </div>
+                        {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+                        {% if currentPath == '/' %}
+                            <div class="col-md-12" style="text-align: center;">
+                                <a class="btn btn-lg main-fb-share-button" style="background: #4267b2; color: white" href="http://www.facebook.com/sharer/sharer.php?{{ {
+                                    'u': site_url,
+                                    'title': meta_title,
+                                }|url_encode }}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+                                    Zdieľať túto výzvu na Facebooku
+                                </a>
+                            </div>
+                            <div class="col-md-12">
+                                <hr>
+                            </div>
+                        {% endif %}
                         <div class="col-sm-6">
                             <img src="{{ asset('build/images/logo-purple.svg') }}" height="70" alt="Logo Kresťania proti nenávisti v tvare kríža vytvoreného z bodiek">
                         </div>
@@ -86,7 +75,7 @@
                                 <a href="/pravidla-ochrany-osobnych-udajov">Pravidlá ochrany osobných údajov</a>
                             </div>
                             <div class="footer-license">
-                                © 2020 Kresťania proti nenávisti, občianska iniciatíva.<br>
+                                © 2020 - {{ 'now' | date('Y') }} Kresťania proti nenávisti, občianska iniciatíva.<br>
                                 Všetky práva vyhradené.
                             </div>
                         </div>

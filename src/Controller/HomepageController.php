@@ -5,10 +5,8 @@ namespace App\Controller;
 use App\Entity\Signature as SignatureEntity;
 use App\Form\Type\SignatureType;
 use App\Model\Signature;
+use App\Service\ListService;
 use Doctrine\DBAL\DBALException;
-use org\nameapi\client\services\ServiceFactory;
-use org\nameapi\ontology\input\context\Context;
-use org\nameapi\ontology\input\context\Priority;
 use Swift_Mailer;
 use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,35 +16,63 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HomepageController extends AbstractController
 {
-    public function index(Request $request, Signature $signatureModel, Swift_Mailer $mailer, $version = 1)
+    public function __construct(private ListService $listService)
     {
-        $signature = $signatureModel->create();
-
-        $form = $this->createForm(SignatureType::class, $signature);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $formData = $form->getData();
-            $signature = $signatureModel->insert($formData);
-            $this->sendVerificationEmail($signature, $mailer);
-
-            return $this->redirect($this->generateUrl('thank_you'));
-        }
-
-        return $this->render('Homepage/index.html.twig', [
-            'fb_share_version' => $version,
-            'form' => $form->createView(),
-            'last_signatures' => $signatureModel->lastVisibleSignatures(),
-            'signatures_count' => $signatureModel->signaturesCount(),
-        ]);
     }
 
-    public function list(Signature $signatureModel)
+    public function index(Request $request, Signature $signatureModel, string $slug = '')
+    {
+        $currentList = $this->getList('');
+        $list = $this->getList($slug);
+
+        if ($list['enabled']) {
+            $signature = $signatureModel->create();
+
+            $form = $this->createForm(SignatureType::class, $signature);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $formData = $form->getData();
+                $formData->setPetition($list['slug']);
+//                $signature = $signatureModel->insert($formData);
+//                $this->sendVerificationEmail($signature, $mailer);
+
+                return $this->redirect($this->generateUrl('thank_you'));
+            }
+        }
+
+        return $this->render('Homepage/index.html.twig', $list + [
+                'fb_share_version' => 2023,
+                'current_list'     => $currentList,
+            ] + ($list['enabled'] ? [
+                'form'             => $form->createView(),
+                'last_signatures'  => $signatureModel->lastVisibleSignatures($list['limit']),
+                'signatures_count' => $signatureModel->signaturesCount(),
+            ] : []));
+    }
+
+    private function getList(string $slug): ?array
+    {
+        if (empty($slug)) {
+            return $this->listService->default();
+        }
+
+        $list = $this->listService->find($slug);
+
+        if (null === $list) {
+            throw $this->createNotFoundException();
+        }
+
+        return $list;
+    }
+
+    public function list(Signature $signatureModel, string $slug = '')
     {
         return $this->render('Homepage/list.html.twig', [
+            'slug'                     => $slug,
             'visible_signatures_count' => $signatureModel->visibleSignaturesCount(),
-            'signatures' => $signatureModel->allVisibleSignatures(),
-            'signatures_count' => $signatureModel->signaturesCount(),
+            'signatures'               => $signatureModel->allVisibleSignatures(),
+            'signatures_count'         => $signatureModel->signaturesCount(),
         ]);
     }
 
@@ -54,25 +80,17 @@ class HomepageController extends AbstractController
     {
         $signature = $signatureModel->verify($hash);
 
-//        $context = Context::builder()
-//            ->priority(Priority::REALTIME())
-//            ->build();
-//
-//        $serviceFactory = new ServiceFactory('api-key', $context);
-//        $deaDetector = $serviceFactory->emailServices()->disposableEmailAddressDetector();
-//        $result = $deaDetector->isDisposable("abcdefgh@10minutemail.com");
-
         $wasVerified5MinutesAgo = null === $signature ? false : (300 >= time() - $signature->getVerifiedAt()->getTimestamp());
 
         return $this->render('Homepage/verify.html.twig', [
-            'signature' => $signature,
+            'signature'                  => $signature,
             'was_verified_5_minutes_ago' => $wasVerified5MinutesAgo,
         ]);
     }
 
     private function sendVerificationEmail(SignatureEntity $signature, Swift_Mailer $mailer)
     {
-        $message = (new Swift_Message('Dôležité: Potvrďte svoj podpis pod vyhlásením!'))
+        $message = (new Swift_Message('Dôležité: Potvrďte svoj podpis pod vyhlásením'))
             ->setFrom('dakujeme@krestaniaprotinenavisti.sk', 'Overenie podpisu (Kresťania proti nenávisti)')
             ->setTo($signature->getEmail())
             ->setBody(
@@ -82,7 +100,7 @@ class HomepageController extends AbstractController
                         'verification_link' => $this->generateUrl('verify', [
                             'hash' => $signature->getHash()
                         ], UrlGeneratorInterface::ABSOLUTE_URL),
-                        'signature' => $signature
+                        'signature'         => $signature
                     ]
                 ),
                 'text/html'
@@ -102,8 +120,7 @@ class HomepageController extends AbstractController
     {
         $signature = $signatureModel->findOneByHash($hash);
 
-        if ($signature instanceof SignatureEntity)
-        {
+        if ($signature instanceof SignatureEntity) {
             $signatureModel->unsubscribe($signature->getId(), $newsletterId);
         }
 

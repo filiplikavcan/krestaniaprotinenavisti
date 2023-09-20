@@ -1,18 +1,6 @@
-homepage:
-    path: /{version}
-    controller: App\Controller\HomepageController::index
-    defaults:
-        version: 1
-    requirements:
-        version: '1|2|3|4|5'
-
 tos:
     path: /pravidla-ochrany-osobnych-udajov
     controller: App\Controller\ArticleController::tos
-
-thank_you:
-    path: /dakujeme
-    controller: App\Controller\ArticleController::thankYou
 
 unsubscribe:
     path: /unsubscribe/{hash}/{newsletterId}
@@ -22,13 +10,27 @@ verify:
     path: /o/{hash}
     controller: App\Controller\HomepageController::verify
 
-list:
-    path: /signatari
-    controller: App\Controller\HomepageController::list
-
 stats:
     path: /secret/d8y38s8d97tf7ad78949t7a/stats
     controller: App\Controller\StatsController::index
+
+thank_you:
+    path: /dakujeme/{slug}
+    controller: App\Controller\ArticleController::thankYou
+    defaults:
+        slug: ''
+
+list:
+    path: /signatari/{slug}
+    controller: App\Controller\HomepageController::list
+    defaults:
+        slug: ''
+
+homepage:
+    path: /{slug}
+    controller: App\Controller\HomepageController::index
+    defaults:
+        slug: ''
 
 #word_cloud:
 #    path: /secret/d8y38s8d97tf7ad78949t7a/cloud

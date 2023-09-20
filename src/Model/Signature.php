@@ -192,7 +192,7 @@ class Signature extends AbstractModel
         }
     }
 
-    public function lastVisibleSignatures()
+    public function lastVisibleSignatures(int $limit)
     {
         $query = $this->query('
             SELECT
@@ -205,7 +205,7 @@ class Signature extends AbstractModel
                 allow_display = 1
             ORDER BY
                 verified_at DESC 
-            LIMIT 50');
+            LIMIT ' . $limit);
 
         foreach ($query->fetchAll() as $rawData)
         {
@@ -366,6 +366,7 @@ class Signature extends AbstractModel
             'agree_with_contact_later' => $signature->getAgreeWithContactLater(),
             'created_at' => new DateTimeImmutable(),
             'hash' => $signature->getHash(),
+            'petition' => $signature->getPetition(),
         ], [
             Types::STRING,
             Types::STRING,

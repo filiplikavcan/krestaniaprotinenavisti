@@ -6,10 +6,8 @@
             <h1 class="signatures-titles">Zoznam všetkých podpísaných ({{ signatures_count }})</h1>
 
             <p>
-                <a href="/">Naspäť na text výzvy</a>
+                <a href="{{ path('homepage', {slug: slug}) }}">Naspäť na text výzvy</a>
             </p>
-
-            <img src="{{ asset('build/images/occupation-word-cloud.png') }}" style="max-width: 100%;">
 
             <div class="signatures-list">
                 <div class="row">
@@ -22,11 +20,12 @@
                             {% set column_indices = column_indices|merge([(visible_signatures_count / nr_of_columns * i)|round(0, 'floor')]) %}
                         {% endfor %}
                         {% for signature in signatures %}
-                            {{ signature.firstName }} {{ signature.lastName }}{% if signature.occupation is not null %}<i>, {{ signature.occupation }}</i>{% endif %}<br>
+                        {{ signature.firstName }} {{ signature.lastName }}{% if signature.occupation is not null %}<i>, {{ signature.occupation }}</i>{% endif %}<br>
 
-                            {% if loop.index in column_indices %}
-                                </div><div class="{{ column_class }}">
-                            {% endif %}
+                        {% if loop.index in column_indices %}
+                    </div>
+                    <div class="{{ column_class }}">
+                        {% endif %}
                         {% endfor %}
                     </div>
                 </div>

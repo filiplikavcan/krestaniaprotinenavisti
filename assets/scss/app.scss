@@ -69,37 +69,45 @@ hr {
 }
 
 .perex {
-  text-transform: uppercase;
+  //text-transform: uppercase;
   max-width: 740px;
+}
+
+.perex-intro {
+  opacity: 0.5;
+  margin-bottom: 2rem;
 }
 
 .perex-title {
   font-family: "GilroyExtraBold", serif;
-  font-size: psd2px(67);
-  margin-bottom: psd2px(20);
+  font-size: psd2px(28);
+  margin-bottom: psd2px(30);
 
   @media (max-width: 767px) {
-    font-size: psd2px(48);
+    font-size: psd2px(26);
   }
 
   @media (max-width: 400px) {
-    font-size: psd2px(40);
+    font-size: psd2px(22);
   }
 }
 
 .perex-text {
   font-family: "GilroyLight", serif;
-  text-transform: uppercase;
   font-size: psd2px(24);
   line-height: psd2px(42);
   margin: 0;
 }
 
+.main-signatures {
+  margin-top: 4rem;
+}
+
 .body {
   p {
     font-family: "OpenSansRegular", serif;
-    font-size: psd2px(16);
-    line-height: psd2px(24);
+    font-size: 1rem;
+    line-height: 1.5;
 
     &:last-child {
       margin: 0;

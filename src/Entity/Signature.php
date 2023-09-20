@@ -20,6 +20,7 @@ class Signature
     protected $verifiedAt;
     protected $lastNotifiedAt;
     protected $notificationCount;
+    protected $petition;
 
     /**
      * @return mixed
@@ -83,6 +84,22 @@ class Signature
     public function setHash($hash): void
     {
         $this->hash = $hash;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPetition()
+    {
+        return $this->hash;
+    }
+
+    /**
+     * @param mixed $petition
+     */
+    public function setPetition($petition): void
+    {
+        $this->petition = $petition;
     }
 
     /**
