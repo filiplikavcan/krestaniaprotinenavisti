@@ -42,7 +42,7 @@ class HomepageController extends AbstractController
         }
 
         return $this->render('Homepage/index.html.twig', $list + [
-                'fb_share_version' => 2023,
+                'fb_share_version' => 2025,
                 'current_list'     => $currentList,
             ] + ($list['enabled'] ? [
                 'form'             => $form->createView(),

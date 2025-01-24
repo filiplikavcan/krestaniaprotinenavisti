@@ -24,6 +24,15 @@ class ListService
     {
         return [
             [
+                'intro'        => 'Výzva kresťanov proti nenávisti, 24. január 2025',
+                'title'        => 'My, obyvatelia Slovenskej republiky,',
+                'enabled'      => false,
+                'slug'     => 'vyzva-2025',
+                'limit'        => 50,
+                'perex'        => '',
+                'body_template' => 'vyzva2025.html.twig',
+            ],
+            [
                 'intro'        => 'Výzva k voľbám do NRSR v roku 2023',
                 'title'        => 'My, dolupodpísaní občania Slovenskej republiky,',
                 'enabled'      => false,
