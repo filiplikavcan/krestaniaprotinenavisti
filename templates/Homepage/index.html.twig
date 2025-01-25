@@ -88,7 +88,7 @@
                                 {{ signature.firstName }}{%- if signature.occupation is not null -%}
                                 <i>, {{ signature.occupation }}</i>{%- endif -%}<br>
                             {% else %}
-                                <i>skrytý podpis</i><br>
+                                <i style="opacity: 0.5">skrytý podpis</i><br>
                             {% endif %}
                         {% endfor %}
                     </div>
