@@ -20,7 +20,6 @@ final class Version20250125190522 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         $schema->getTable('signature')->addColumn('display', 'string', ['length' => 255]);
-        $this->connection->executeStatement('UPDATE signature SET display = IF(allow_display = 1,\'full\', \'anonymous\')');
     }
 
     public function down(Schema $schema) : void
