@@ -50,7 +50,10 @@
                 {% endif %}
 
                 <div class="perex">
-                    <p class="perex-intro">{{ intro }}</p>
+                    <p class="perex-intro mb-3">{{ intro }}</p>
+                    <div class="mb-5">
+                        <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať výzvu</a>
+                    </div>
                     <h1 class="perex-title">{{ title }}</h1>
 
                     {% if perex is not empty %}
@@ -71,7 +74,7 @@
             {% if form_enabled %}
                 <div class="col-md-4">
 
-                    <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať výzvu</a>
+{#                    <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať výzvu</a>#}
 
                     <h2 class="signatures-title">Podpísaní ({{ signatures_count }}):</h2>
 
@@ -84,7 +87,7 @@
                     <a href="{{ url('list', {slug: slug}) }}" class="signatures-all-link">Všetci podpísaní &gt;</a>
 
                     <div class="mt-5">
-                        <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať výzvu</a>
+{#                        <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať výzvu</a>#}
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -100,16 +103,16 @@
                     <div class="form-holder">
                         <div class="row">
                             {% if not form.vars.submitted %}
-                                <div class="col-md-6">
-                                    <div class="form-title-holder">
+                                <div class="col-md-5">
+                                    <div class="form-title-holder" style="max-width: 280px;  margin: 0 auto;">
                                         <h2 class="form-title">
                                             <div><span>Podpísať<small>výzvu</small></span></div>
                                         </h2>
                                     </div>
                                 </div>
                             {% endif %}
-                            <div class="col-md-6" id="podpisat-vyhlasenie">
-                                <div class="form-form-holder">
+                            <div class="col-md-7" id="podpisat-vyhlasenie">
+                                <div class="form-form-holder" style="max-width: 500px; margin: 0 auto;">
                                     {% if form.vars.submitted %}
                                         <h2 class="form-title-simple">Podpísať výzvu</h2>
                                     {% endif %}
