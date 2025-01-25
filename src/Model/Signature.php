@@ -143,7 +143,8 @@ class Signature extends AbstractModel
             s.verified_at,
             s.notification_count,
             s.last_notified_at,
-            s.is_multiple_email_ok';
+            s.is_multiple_email_ok,
+            s.display';
     }
 
     private function entity(array $rawData): SignatureEntity
@@ -164,6 +165,7 @@ class Signature extends AbstractModel
         $signature->setVerifiedAt(null === $rawData['verified_at'] ? null : DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $rawData['verified_at']));
         $signature->setLastNotifiedAt(null === $rawData['last_notified_at'] ? null : DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $rawData['last_notified_at']));
         $signature->setNotificationCount(null === $rawData['notification_count'] ? 0 : (int)$rawData['notification_count']);
+        $signature->setDisplay($rawData['display']);
 
         return $signature;
     }
@@ -205,8 +207,6 @@ class Signature extends AbstractModel
             WHERE
                 verified_at IS NOT NULL 
                     AND
-                allow_display = 1
-                    AND
                 petition = :petition
             ORDER BY
                 verified_at DESC 
@@ -228,8 +228,6 @@ class Signature extends AbstractModel
                 signature
             WHERE
                 verified_at IS NOT NULL 
-                    AND
-                allow_display = 1
                     AND
                 petition = :petition
             ORDER BY
@@ -364,6 +362,7 @@ class Signature extends AbstractModel
             'created_at' => new DateTimeImmutable(),
             'hash' => $signature->getHash(),
             'petition' => $signature->getPetition(),
+            'display' => $signature->getDisplay(),
         ], [
             Types::STRING,
             Types::STRING,
@@ -374,6 +373,7 @@ class Signature extends AbstractModel
             Types::BOOLEAN,
             Types::BOOLEAN,
             Types::DATETIME_IMMUTABLE,
+            Types::STRING,
             Types::STRING,
             Types::STRING,
         ]);

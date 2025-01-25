@@ -23,7 +23,8 @@
 {% macro formCheckboxField(field) %}
     <div class="form-field{% if field.vars.errors is not empty %} has-error{% endif %}">
         <div class="form-checkbox-field">
-            {{ form_widget(field) }} <label for="{{ field.vars.id }}">{{ field.vars.label | raw }}{% if field.vars.required %} *{% endif %}</label>
+            {{ form_widget(field) }} <label
+                    for="{{ field.vars.id }}">{{ field.vars.label | raw }}{% if field.vars.required %} *{% endif %}</label>
         </div>
         {% if field.vars.errors is not empty %}
             <div class="form-field-error">
@@ -74,20 +75,28 @@
             {% if form_enabled %}
                 <div class="col-md-4">
 
-{#                    <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať výzvu</a>#}
+                    {#                    <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať výzvu</a> #}
 
                     <h2 class="signatures-title">Podpísaní ({{ signatures_count }}):</h2>
 
                     <div class="signatures-list">
                         {% for signature in last_signatures %}
-                            {{ signature.firstName }} {{ signature.lastName }}{% if signature.occupation is not null %}<i>, {{ signature.occupation }}</i>{% endif %}<br>
+                            {% if signature.display == 'full' %}
+                                {{ signature.firstName }} {{ signature.lastName }}{%- if signature.occupation is not null -%}
+                                <i>, {{ signature.occupation }}</i>{%- endif -%}<br>
+                            {% elseif signature.display == 'first_name_and_occupation' %}
+                                {{ signature.firstName }}{%- if signature.occupation is not null -%}
+                                <i>, {{ signature.occupation }}</i>{%- endif -%}<br>
+                            {% else %}
+                                <i>skrytý podpis</i><br>
+                            {% endif %}
                         {% endfor %}
                     </div>
 
                     <a href="{{ url('list', {slug: slug}) }}" class="signatures-all-link">Všetci podpísaní &gt;</a>
 
                     <div class="mt-5">
-{#                        <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať výzvu</a>#}
+                        {#                        <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať výzvu</a> #}
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -129,16 +138,74 @@
                                     {{ _self.formTextField(form.occupation) }}
                                     {{ _self.formTextField(form.email) }}
                                     {{ _self.formTextField(form.city) }}
-                                    {{ _self.formCheckboxField(form.allow_display) }}
+
+                                    <hr class="mb-3 mt-4"/>
+                                    {{ _self.formTextField(form.display) }}
+                                    <hr class="mb-4 mt-3"/>
+
                                     {{ _self.formCheckboxField(form.agree_with_support_statement) }}
                                     {{ _self.formCheckboxField(form.agree_with_contact_later) }}
 
                                     <small class="form-required-label">* Povinné údaje</small>
                                     <div class="form-submit-field">
                                         {{ form_widget(form.sign) }}
-                                        <div class="form-button-description">po odoslaní príde email na overenie podpisu</div>
+                                        <div class="form-button-description">po odoslaní príde email na overenie
+                                            podpisu
+                                        </div>
                                     </div>
                                     {{ form_end(form) }}
+
+
+                                    <script type="text/javascript">
+                                        (function () {
+                                            var fields = ['signature_first_name', 'signature_last_name', 'signature_occupation'];
+                                            var values = {};
+                                            var display = '';
+
+                                            function renderDisplayExample() {
+                                                var fullNameParts = [];
+
+                                                if ('' !== values.signature_first_name.trim()) {
+                                                    fullNameParts.push(values.signature_first_name);
+                                                }
+
+                                                if ('' !== values.signature_last_name.trim()) {
+                                                    fullNameParts.push(values.signature_last_name);
+                                                }
+
+                                                document.getElementById('signature-example-full').innerHTML = (fullNameParts.length > 0 ? fullNameParts.join(' ') : 'Jozef Mrkvička') +
+                                                    (fullNameParts.length === 0 ? ', tesár' : ('' === values.signature_occupation ? '' : (', ' + values.signature_occupation)));
+
+                                                document.getElementById('signature-example-first-name').innerHTML = ('' === values.signature_first_name ? 'Mária' : values.signature_first_name) +
+                                                    ('' === values.signature_first_name ? ', matka v domácnosti' : ('' === values.signature_occupation ? '' : (', ' + values.signature_occupation)));
+                                            }
+
+                                            var radios = document.getElementsByName('signature[display]');
+
+                                            for (i = 0; i < radios.length; i++) {
+                                                if (radios[i].checked) {
+                                                    display = radios[i].value;
+                                                }
+
+                                                radios[i].addEventListener('change', function () {
+                                                    console.log('Selected value: ' + this.value);
+                                                });
+                                            }
+
+                                            for (i = 0; i < fields.length; i++) {
+                                                var field = fields[i];
+
+                                                values[field] = document.getElementById(field).value;
+
+                                                document.getElementById(field).addEventListener('input', function (event) {
+                                                    values[event.target.id] = document.getElementById(event.target.id).value;
+                                                    renderDisplayExample();
+                                                });
+                                            }
+
+                                            renderDisplayExample();
+                                        })();
+                                    </script>
                                 </div>
                             </div>
                         </div>

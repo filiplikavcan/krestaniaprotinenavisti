@@ -5,7 +5,9 @@ namespace App\Form\Type;
 use App\Entity\Signature;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -42,9 +44,14 @@ class SignatureType extends AbstractType
             ->add('city', TextType::class, [
                 'label' => 'Mesto/obec (nebude zverejnené)',
             ])
-            ->add('allow_display', CheckboxType::class, [
-                'label' => 'Súhlasím so zverejnením môjho mena a povolania pri texte vyhlásenia na webstránke.',
-                'required' => false,
+            ->add('display', ChoiceType::class, [
+                'label' => 'Svoj podpis chcem zverejniť vo forme',
+                'expanded' => true,
+                'choices' => [
+                    'Celé meno a povolanie <span>ukážka: <strong id="signature-example-full">Jozef Mrkvička, tesár</strong></span>' => 'full',
+                    'Krstné meno a povolanie <span>ukážka: <strong id="signature-example-first-name">Mária, matka v domácnosti</strong></span>' => 'first_name_and_occupation',
+                    'Anonymne <span>ukážka: <strong>skrytý podpis</strong></span>' => 'anonymous',
+                ]
             ])
             ->add('agree_with_support_statement', CheckboxType::class, [
                 'label' => 'Súhlasím so spracúvaním mojich osobných údajov na účely podpory Iniciatívy v zmysle <a href="/pravidla-ochrany-osobnych-udajov" target="_blank">Pravidiel ochrany osobných údajov</a>.',

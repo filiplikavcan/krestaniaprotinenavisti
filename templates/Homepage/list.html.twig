@@ -20,7 +20,16 @@
                             {% set column_indices = column_indices|merge([(visible_signatures_count / nr_of_columns * i)|round(0, 'floor')]) %}
                         {% endfor %}
                         {% for signature in signatures %}
-                        {{ signature.firstName }} {{ signature.lastName }}{% if signature.occupation is not null %}<i>, {{ signature.occupation }}</i>{% endif %}<br>
+
+                        {% if signature.display == 'full' %}
+                            {{ signature.firstName }} {{ signature.lastName }}{%- if signature.occupation is not null -%}
+                            <i>, {{ signature.occupation }}</i>{%- endif -%}<br>
+                        {% elseif signature.display == 'first_name_and_occupation' %}
+                            {{ signature.firstName }}{%- if signature.occupation is not null -%}
+                            <i>, {{ signature.occupation }}</i>{%- endif -%}<br>
+                        {% else %}
+                            <i>skrytý podpis</i><br>
+                        {% endif %}
 
                         {% if loop.index in column_indices %}
                     </div>

@@ -12,7 +12,7 @@ class Signature
     protected $email;
     protected $city;
     protected $occupation;
-    protected $allow_display = true;
+    protected $allow_display = false;
     protected $agree_with_support_statement;
     protected $agree_with_contact_later;
     protected $hash;
@@ -21,6 +21,20 @@ class Signature
     protected $lastNotifiedAt;
     protected $notificationCount;
     protected $petition;
+    protected $display = 'full'; // full, first_name_and_occupation, anonymous
+
+    public function getDisplay()
+    {
+        return $this->display;
+    }
+
+    /**
+     * @param mixed $display
+     */
+    public function setDisplay($display): void
+    {
+        $this->display = $display;
+    }
 
     /**
      * @return mixed

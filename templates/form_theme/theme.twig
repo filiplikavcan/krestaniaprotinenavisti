@@ -1,0 +1,23 @@
+{% extends 'bootstrap_base_layout.html.twig' %}
+
+{% block checkbox_radio_label %}
+    <label for="{{ form.vars.id }}">
+        {{ label | raw }}
+    </label>
+{% endblock %}
+
+{% block checkbox_radio_row %}
+{% endblock %}
+
+{% block _signature_display_widget %}
+    <div class="form-signature-display">
+        {%- for child in form %}
+            <div class="form-checkbox-field">{{- form_widget(child, {
+                    parent_label_class: label_attr.class|default(''),
+                    translation_domain: choice_translation_domain,
+                }) -}}
+                {{ form_label(child) }}
+            </div>
+        {%- endfor -%}
+    </div>
+{% endblock %}

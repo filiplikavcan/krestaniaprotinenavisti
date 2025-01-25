@@ -285,7 +285,7 @@ hr {
 }
 
 .form-label {
-  font-family: "OpenSansRegular", serif;
+  font-family: "OpenSansBold", serif;
   font-size: psd2px(16);
 
   label {
@@ -318,11 +318,14 @@ hr {
 
 .form-checkbox-field {
   display: flex;
-  margin-top: 20px;
+  align-items: flex-start;
+  margin-top: 10px;
 
   input {
     display: inline;
     margin: 3px 0 0 0;
+    position: relative;
+    top: 2px;
   }
 
   label {
@@ -339,6 +342,26 @@ hr {
         opacity: 0.8;
       }
     }
+  }
+}
+
+.form-signature-display {
+  label {
+
+    span {
+      display: block;
+      font-size: psd2px(16);
+      opacity: 0.8;
+      padding-left: 16px;
+    }
+
+    strong {
+      font-family: Courier New, monospace;
+    }
+  }
+
+  input {
+    width: unset;
   }
 }
 

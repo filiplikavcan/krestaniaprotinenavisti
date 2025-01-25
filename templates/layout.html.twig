@@ -1,105 +1,113 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <!-- Matomo -->
-        <script>
-            var _paq = window._paq = window._paq || [];
-            /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-            _paq.push(['trackPageView']);
-            _paq.push(['enableLinkTracking']);
-            (function() {
-                var u="//matomo.krestaniaprotinenavisti.sk/";
-                _paq.push(['setTrackerUrl', u+'matomo.php']);
-                _paq.push(['setSiteId', '1']);
-                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-                g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-            })();
-        </script>
-        <!-- End Matomo Code -->
+<html lang="sk">
+<head>
+    <!-- Matomo -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function () {
+            var u = "//matomo.krestaniaprotinenavisti.sk/";
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            _paq.push(['setSiteId', '1']);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.async = true;
+            g.src = u + 'matomo.js';
+            s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
 
-        {% set meta_title = 'Kresťania proti nenávisti' %}
-        {% set meta_description = 'My, občania Slovenskej republiky, veríme, že autenticky žité kresťanské hodnoty vo svojej komplexnosti slúžia spoločnému dobru. Výber len niektorých a ich zneužívanie na rozdeľovanie spoločnosti a budovanie nenávisti nemá nič spoločné s posolstvom evanjelia.' %}
-        {% set fb_share_version = fb_share_version | default(2023) %}
-        {% set image_url = absolute_url(asset('build/images/quote-' ~ fb_share_version ~ '.png')) %}
-        {% set site_url = url('homepage', {version: fb_share_version}) %}
+    {% set meta_title = 'Kresťania proti nenávisti' %}
+    {% set meta_description = 'My, občania Slovenskej republiky, veríme, že autenticky žité kresťanské hodnoty vo svojej komplexnosti slúžia spoločnému dobru. Výber len niektorých a ich zneužívanie na rozdeľovanie spoločnosti a budovanie nenávisti nemá nič spoločné s posolstvom evanjelia.' %}
+    {% set fb_share_version = fb_share_version | default(2023) %}
+    {% set image_url = absolute_url(asset('build/images/quote-' ~ fb_share_version ~ '.png')) %}
+    {% set site_url = url('homepage', {version: fb_share_version}) %}
 
-        <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="015a6801-96d6-4a05-a5f2-f2afca77bf19" data-blockingmode="auto" type="text/javascript"></script>
+    <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js" data-cbid="015a6801-96d6-4a05-a5f2-f2afca77bf19"
+            data-blockingmode="auto" type="text/javascript"></script>
 
-        <meta charset="UTF-8">
-        <title>{% block title %}{{ meta_title }}{% endblock %}</title>
-        <base href="/">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>{% block title %}{{ meta_title }}{% endblock %}</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <meta name="title" content="{{ meta_title }}">
-        <meta name="description" content="{{ meta_description }}">
-        <meta name="keywords" content="kresťania, iniciatíva, spoločnosť, cirkev, demokracia">
+    <meta name="title" content="{{ meta_title }}">
+    <meta name="description" content="{{ meta_description }}">
+    <meta name="keywords" content="kresťania, iniciatíva, spoločnosť, cirkev, demokracia">
 
-        <meta property="og:title" content="{{ meta_title }}"/>
-        <meta property="og:description" content="{{ meta_description }}"/>
-        <meta property="og:type" content="website"/>
-        <meta property="og:url" content="{{ site_url }}"/>
-        <meta property="og:image" content="{{ image_url }}"/>
+    <meta property="og:title" content="{{ meta_title }}"/>
+    <meta property="og:description" content="{{ meta_description }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="{{ site_url }}"/>
+    <meta property="og:image" content="{{ image_url }}"/>
 
-        <meta property="twitter:card" content="summary_large_image">
-        <meta property="twitter:url" content="{{ site_url }}">
-        <meta property="twitter:title" content="{{ meta_title }}">
-        <meta property="twitter:description" content="{{ meta_description }}">
-        <meta property="twitter:image" content="{{ image_url }}">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ site_url }}">
+    <meta property="twitter:title" content="{{ meta_title }}">
+    <meta property="twitter:description" content="{{ meta_description }}">
+    <meta property="twitter:image" content="{{ image_url }}">
 
-        <link rel="stylesheet" href="{{ asset('build/app.css') }}">
-        <link rel="icon" type="image/x-icon" href="/favicon.ico">
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        <div class="page">
-            <div class="logo-holder">
-                <a href="/" class="logo">
-                    <img src="{{ asset('build/images/logo-white.svg') }}" class="logo-image" alt="Logo Kresťania proti nenávisti v tvare kríža vytvoreného z bodiek">
-                </a>
-            </div>
-            <div class="top-menu">
-                <div class="top-menu-link">
-                    <a href="https://www.facebook.com/krestaniaprotinenavisti" target="_blank">Sledujte nás<img src="{{ asset('build/images/icon-fb.png') }}" width="32"></a>
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<div class="page">
+    <div class="logo-holder">
+        <a href="/" class="logo">
+            <img src="{{ asset('build/images/logo-white.svg') }}" class="logo-image"
+                 alt="Logo Kresťania proti nenávisti v tvare kríža vytvoreného z bodiek">
+        </a>
+    </div>
+    <div class="top-menu">
+        <div class="top-menu-link">
+            <a href="https://www.facebook.com/krestaniaprotinenavisti" target="_blank">Sledujte nás<img
+                        src="{{ asset('build/images/icon-fb.png') }}" width="32"></a>
+        </div>
+    </div>
+    {% block body %}{% endblock %}
+    <div class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <hr>
                 </div>
-            </div>
-            {% block body %}{% endblock %}
-            <div class="footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <hr>
-                        </div>
-                        {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
-                        {% if currentPath == '/' %}
-                            <div class="col-md-12" style="text-align: center;">
-                                <a class="btn btn-lg main-fb-share-button" style="background: #4267b2; color: white" href="http://www.facebook.com/sharer/sharer.php?{{ {
-                                    'u': site_url,
-                                    'title': meta_title,
-                                }|url_encode }}" onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
-                                    Zdieľať túto výzvu na Facebooku
-                                </a>
-                            </div>
-                            <div class="col-md-12">
-                                <hr>
-                            </div>
-                        {% endif %}
-                        <div class="col-sm-6">
-                            <img src="{{ asset('build/images/logo-purple.svg') }}" height="70" alt="Logo Kresťania proti nenávisti v tvare kríža vytvoreného z bodiek">
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="footer-links">
-                                <a href="/pravidla-ochrany-osobnych-udajov">Pravidlá ochrany osobných údajov</a>
-                                <a href="/cookies">Spravovať cookies</a>
-                            </div>
-                            <div class="footer-license">
-                                © 2020 - {{ 'now' | date('Y') }} Kresťania proti nenávisti, občianska iniciatíva.<br>
-                                Všetky práva vyhradené.
-                            </div>
-                        </div>
+                {% set currentPath = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+                {% if currentPath == '/' %}
+                    <div class="col-md-12" style="text-align: center;">
+                        <a class="btn btn-lg main-fb-share-button" style="background: #4267b2; color: white"
+                           href="http://www.facebook.com/sharer/sharer.php?{{ {
+                               'u': site_url,
+                               'title': meta_title,
+                           }|url_encode }}"
+                           onclick="javascript:window.open(this.href,'', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+                            Zdieľať túto výzvu na Facebooku
+                        </a>
+                    </div>
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                {% endif %}
+                <div class="col-sm-6">
+                    <img src="{{ asset('build/images/logo-purple.svg') }}" height="70"
+                         alt="Logo Kresťania proti nenávisti v tvare kríža vytvoreného z bodiek">
+                </div>
+                <div class="col-sm-6">
+                    <div class="footer-links">
+                        <a href="/pravidla-ochrany-osobnych-udajov">Pravidlá ochrany osobných údajov</a>
+                        <a href="/cookies">Spravovať cookies</a>
+                    </div>
+                    <div class="footer-license">
+                        © 2020 - {{ 'now' | date('Y') }} Kresťania proti nenávisti, občianska iniciatíva.<br>
+                        Všetky práva vyhradené.
                     </div>
                 </div>
             </div>
         </div>
-        {% block javascripts %}{% endblock %}
-    </body>
+    </div>
+</div>
+{% block javascripts %}{% endblock %}
+</body>
 </html>
