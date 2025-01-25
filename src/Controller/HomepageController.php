@@ -7,11 +7,13 @@ use App\Form\Type\SignatureType;
 use App\Model\Signature;
 use App\Service\ListService;
 use Doctrine\DBAL\DBALException;
-use Swift_Mailer;
-use Swift_Message;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class HomepageController extends AbstractController
@@ -20,7 +22,7 @@ class HomepageController extends AbstractController
     {
     }
 
-    public function index(Request $request, Signature $signatureModel, string $slug = '')
+    public function index(Request $request, Signature $signatureModel, MailerInterface $mailer, string $slug = '')
     {
         $currentList = $this->getList('');
         $list = $this->getList($slug);
@@ -34,8 +36,9 @@ class HomepageController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $formData = $form->getData();
                 $formData->setPetition($list['slug']);
-//                $signature = $signatureModel->insert($formData);
-//                $this->sendVerificationEmail($signature, $mailer);
+                $signature = $signatureModel->insert($formData);
+
+                $this->sendVerificationEmail($signature, $mailer);
 
                 return $this->redirect($this->generateUrl('thank_you'));
             }
@@ -43,11 +46,11 @@ class HomepageController extends AbstractController
 
         return $this->render('Homepage/index.html.twig', $list + [
                 'fb_share_version' => 2025,
-                'current_list'     => $currentList,
+                'current_list' => $currentList,
             ] + ($list['enabled'] ? [
-                'form'             => $form->createView(),
-                'last_signatures'  => $signatureModel->lastVisibleSignatures($list['limit']),
-                'signatures_count' => $signatureModel->signaturesCount(),
+                'form' => $form->createView(),
+                'last_signatures' => $signatureModel->lastVisibleSignatures($list['limit'], $list['slug']),
+                'signatures_count' => $signatureModel->signaturesCount($list['slug']),
             ] : []));
     }
 
@@ -68,11 +71,13 @@ class HomepageController extends AbstractController
 
     public function list(Signature $signatureModel, string $slug = '')
     {
+        $list = $this->getList($slug);
+
         return $this->render('Homepage/list.html.twig', [
-            'slug'                     => $slug,
-            'visible_signatures_count' => $signatureModel->visibleSignaturesCount(),
-            'signatures'               => $signatureModel->allVisibleSignatures(),
-            'signatures_count'         => $signatureModel->signaturesCount(),
+            'slug' => $slug,
+            'visible_signatures_count' => $signatureModel->visibleSignaturesCount($list['slug']),
+            'signatures' => $signatureModel->allVisibleSignatures($list['slug']),
+            'signatures_count' => $signatureModel->signaturesCount($list['slug']),
         ]);
     }
 
@@ -83,28 +88,23 @@ class HomepageController extends AbstractController
         $wasVerified5MinutesAgo = null === $signature ? false : (300 >= time() - $signature->getVerifiedAt()->getTimestamp());
 
         return $this->render('Homepage/verify.html.twig', [
-            'signature'                  => $signature,
+            'signature' => $signature,
             'was_verified_5_minutes_ago' => $wasVerified5MinutesAgo,
         ]);
     }
 
-    private function sendVerificationEmail(SignatureEntity $signature, Swift_Mailer $mailer)
+    private function sendVerificationEmail(SignatureEntity $signature, MailerInterface $mailer)
     {
-        $message = (new Swift_Message('Dôležité: Potvrďte svoj podpis pod vyhlásením'))
-            ->setFrom('dakujeme@krestaniaprotinenavisti.sk', 'Overenie podpisu (Kresťania proti nenávisti)')
-            ->setTo($signature->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'emails/verification.html.twig',
-                    [
-                        'verification_link' => $this->generateUrl('verify', [
-                            'hash' => $signature->getHash()
-                        ], UrlGeneratorInterface::ABSOLUTE_URL),
-                        'signature'         => $signature
-                    ]
-                ),
-                'text/html'
-            );
+        $message = (new TemplatedEmail())
+            ->from(new Address('dakujeme@krestaniaprotinenavisti.sk', 'Overenie podpisu (Kresťania proti nenávisti)'))
+            ->to($signature->getEmail())
+            ->subject('Dôležité: Potvrďte svoj podpis pod vyhlásením')
+            ->htmlTemplate('emails/verification.html.twig')->context([
+                'verification_link' => $this->generateUrl('verify', [
+                    'hash' => $signature->getHash()
+                ], UrlGeneratorInterface::ABSOLUTE_URL),
+                'signature' => $signature
+            ]);
 
         $mailer->send($message);
     }

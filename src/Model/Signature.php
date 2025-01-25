@@ -12,7 +12,7 @@ use function Symfony\Component\String\u;
 
 class Signature extends AbstractModel
 {
-    public function signaturesCount(): int
+    public function signaturesCount(string $petition): int
     {
         return $this->query('
             SELECT
@@ -20,10 +20,14 @@ class Signature extends AbstractModel
             FROM
                 signature
             WHERE
-                verified_at IS NOT NULL')->fetch()['signatures_count'];
+                petition = :petition
+                    AND
+                verified_at IS NOT NULL', [
+            'petition' => [$petition, Types::STRING]
+        ])->fetch()['signatures_count'];
     }
 
-    public function visibleSignaturesCount(): int
+    public function visibleSignaturesCount(string $petition): int
     {
         return $this->query('
             SELECT
@@ -31,9 +35,13 @@ class Signature extends AbstractModel
             FROM
                 signature
             WHERE
+                petition = :petition
+                    AND
                 verified_at IS NOT NULL
                     AND
-                allow_display = 1')->fetch()['signatures_count'];
+                allow_display = 1', [
+            'petition' => [$petition, Types::STRING]
+        ])->fetch()['signatures_count'];
     }
 
     /**
@@ -59,8 +67,7 @@ class Signature extends AbstractModel
 
     public function markNewsletterSent(int $newsletterId, int $signatureId): bool
     {
-        try
-        {
+        try {
             $this->query('
                 INSERT INTO 
                     signature_newsletter 
@@ -78,9 +85,7 @@ class Signature extends AbstractModel
                 'signature_id' => [$signatureId, Types::INTEGER],
                 'newsletter_id' => [$newsletterId, Types::INTEGER],
             ]);
-        }
-        catch (Exception $exception)
-        {
+        } catch (Exception $exception) {
             return false;
         }
 
@@ -112,12 +117,11 @@ class Signature extends AbstractModel
                 created_at
             LIMIT 
                 :limit", [
-                    'newsletter_id' => [$newsletterId, Types::INTEGER],
-                    'limit' => [$limit, Types::INTEGER],
+            'newsletter_id' => [$newsletterId, Types::INTEGER],
+            'limit' => [$limit, Types::INTEGER],
         ]);
 
-        while ($rawData = $query->fetch())
-        {
+        while ($rawData = $query->fetch()) {
             yield $this->entity($rawData);
         }
     }
@@ -186,13 +190,12 @@ class Signature extends AbstractModel
             LIMIT 
                 ' . $limit);
 
-        foreach ($query->fetchAll() as $rawData)
-        {
+        foreach ($query->fetchAll() as $rawData) {
             yield $this->entity($rawData);
         }
     }
 
-    public function lastVisibleSignatures(int $limit)
+    public function lastVisibleSignatures(int $limit, string $petition)
     {
         $query = $this->query('
             SELECT
@@ -203,17 +206,20 @@ class Signature extends AbstractModel
                 verified_at IS NOT NULL 
                     AND
                 allow_display = 1
+                    AND
+                petition = :petition
             ORDER BY
                 verified_at DESC 
-            LIMIT ' . $limit);
+            LIMIT ' . $limit, [
+            'petition' => [$petition, Types::STRING]
+        ]);
 
-        foreach ($query->fetchAll() as $rawData)
-        {
+        foreach ($query->fetchAll() as $rawData) {
             yield $this->entity($rawData);
         }
     }
 
-    public function allVisibleSignatures()
+    public function allVisibleSignatures(string $petition)
     {
         $query = $this->query('
             SELECT
@@ -224,11 +230,14 @@ class Signature extends AbstractModel
                 verified_at IS NOT NULL 
                     AND
                 allow_display = 1
+                    AND
+                petition = :petition
             ORDER BY
-                verified_at DESC');
+                verified_at DESC', [
+            'petition' => [$petition, Types::STRING]
+        ]);
 
-        while ($rawData = $query->fetch())
-        {
+        while ($rawData = $query->fetch()) {
             yield $this->entity($rawData);
         }
     }
@@ -251,34 +260,27 @@ class Signature extends AbstractModel
         $result = [];
         $prefixed = [];
 
-        while ($row = $statement->fetch())
-        {
-            if (!empty($row['occupation']))
-            {
-                foreach (preg_split('/[ |\/,\.\-]/', $row['occupation']) as $word)
-                {
+        while ($row = $statement->fetch()) {
+            if (!empty($row['occupation'])) {
+                foreach (preg_split('/[ |\/,\.\-]/', $row['occupation']) as $word) {
                     $baseWord = u($word)->ascii()->trim()->trim('-')->lower();
                     $unifiedWord = u($word)->trim()->trim('-')->lower()->toString();
 
                     $keyWord = $baseWord->slice(0, 6)->toString();
                     $normalizedWord = $baseWord->toString();
 
-                    if (isset($synonyms[$normalizedWord]))
-                    {
+                    if (isset($synonyms[$normalizedWord])) {
                         $keyWord = u($synonyms[$keyWord])->slice(0, 6)->toString();
                     }
 
-                    if (strlen($normalizedWord) > 3)
-                    {
-                        if (!isset($result[$unifiedWord]))
-                        {
+                    if (strlen($normalizedWord) > 3) {
+                        if (!isset($result[$unifiedWord])) {
                             $result[$unifiedWord] = 0;
                         }
 
                         $result[$unifiedWord]++;
 
-                        if (!isset($prefixed[$keyWord]))
-                        {
+                        if (!isset($prefixed[$keyWord])) {
                             $prefixed[$keyWord] = [];
                         }
 
@@ -292,14 +294,11 @@ class Signature extends AbstractModel
 
         $slice = array_slice($result, 0, 150);
 
-        foreach ($slice as $word => $count)
-        {
+        foreach ($slice as $word => $count) {
             $keyWord = u($word)->ascii()->trim()->trim('-')->lower()->slice(0, 6)->toString();
 
-            foreach ($prefixed[$keyWord] as $otherWord)
-            {
-                if ($otherWord !== $word)
-                {
+            foreach ($prefixed[$keyWord] as $otherWord) {
+                if ($otherWord !== $word) {
                     $slice[$word] += $result[$otherWord];
                 }
             }
@@ -347,11 +346,9 @@ class Signature extends AbstractModel
      */
     public function insert(SignatureEntity $signature): SignatureEntity
     {
-        try
-        {
+        try {
             $signature->setHash(md5(random_bytes(32)));
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $signature->setHash(md5(rand(1, 10000000) . $signature->getEmail() . rand(1, 10000000)));
         }
 
@@ -378,6 +375,7 @@ class Signature extends AbstractModel
             Types::BOOLEAN,
             Types::DATETIME_IMMUTABLE,
             Types::STRING,
+            Types::STRING,
         ]);
 
         return $signature;
@@ -394,15 +392,13 @@ class Signature extends AbstractModel
             'hash' => [$hash, Types::STRING]
         ])->fetch();
 
-        if (false === $rawData)
-        {
+        if (false === $rawData) {
             return null;
         }
 
         $signature = $this->entity($rawData);
 
-        if (null === $signature->getVerifiedAt())
-        {
+        if (null === $signature->getVerifiedAt()) {
             $signature->setVerifiedAt(new DateTimeImmutable());
 
             $this->connection->update('signature', [

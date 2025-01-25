@@ -26,9 +26,9 @@ class ListService
             [
                 'intro'        => 'Výzva kresťanov proti nenávisti, 24. január 2025',
                 'title'        => 'My, obyvatelia Slovenskej republiky,',
-                'enabled'      => false,
+                'enabled'      => true,
                 'slug'     => 'vyzva-2025',
-                'limit'        => 50,
+                'limit'        => 60,
                 'perex'        => '',
                 'body_template' => 'vyzva2025.html.twig',
             ],

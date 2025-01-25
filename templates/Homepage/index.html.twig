@@ -39,7 +39,7 @@
     <div class="container-fluid">
         <div class="row">
             {% if not form_enabled or not form.vars.submitted %}
-            <div class="col-md-8 order-md-first offset-md-2">
+            <div class="col-md-8">
                 {% if slug != current_list.slug %}
                     <div class="alert-kpn alert p-4">
                         <p>
@@ -71,7 +71,7 @@
             {% if form_enabled %}
                 <div class="col-md-4">
 
-                    <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať vyhlásenie</a>
+                    <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať výzvu</a>
 
                     <h2 class="signatures-title">Podpísaní ({{ signatures_count }}):</h2>
 
@@ -82,6 +82,10 @@
                     </div>
 
                     <a href="{{ url('list', {slug: slug}) }}" class="signatures-all-link">Všetci podpísaní &gt;</a>
+
+                    <div class="mt-5">
+                        <a href="#podpisat-vyhlasenie" class="signature-button">Podpísať výzvu</a>
+                    </div>
                 </div>
                 <div class="col-md-12">
                     <hr>
@@ -99,7 +103,7 @@
                                 <div class="col-md-6">
                                     <div class="form-title-holder">
                                         <h2 class="form-title">
-                                            <div><span>Podpísať<small>vyhlásenie</small></span></div>
+                                            <div><span>Podpísať<small>výzvu</small></span></div>
                                         </h2>
                                     </div>
                                 </div>
@@ -107,7 +111,7 @@
                             <div class="col-md-6" id="podpisat-vyhlasenie">
                                 <div class="form-form-holder">
                                     {% if form.vars.submitted %}
-                                        <h2 class="form-title-simple">Podpísať vyhlásenie</h2>
+                                        <h2 class="form-title-simple">Podpísať výzvu</h2>
                                     {% endif %}
 
                                     {{ form_start(form) }}
@@ -119,9 +123,9 @@
 
                                     {{ _self.formTextField(form.first_name) }}
                                     {{ _self.formTextField(form.last_name) }}
+                                    {{ _self.formTextField(form.occupation) }}
                                     {{ _self.formTextField(form.email) }}
                                     {{ _self.formTextField(form.city) }}
-                                    {{ _self.formTextField(form.occupation) }}
                                     {{ _self.formCheckboxField(form.allow_display) }}
                                     {{ _self.formCheckboxField(form.agree_with_support_statement) }}
                                     {{ _self.formCheckboxField(form.agree_with_contact_later) }}

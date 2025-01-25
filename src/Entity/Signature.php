@@ -91,7 +91,7 @@ class Signature
      */
     public function getPetition()
     {
-        return $this->hash;
+        return $this->petition;
     }
 
     /**

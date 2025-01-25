@@ -32,15 +32,15 @@ class SignatureType extends AbstractType
             ->add('last_name', TextType::class, [
                 'label' => 'Priezvisko',
             ])
-            ->add('email', EmailType::class, [
-                'label' => 'E-mail',
-            ])
-            ->add('city', TextType::class, [
-                'label' => 'Mesto/obec',
-            ])
             ->add('occupation', TextType::class, [
                 'label' => 'Povolanie',
                 'required' => false,
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'E-mail (nebude zverejnený)',
+            ])
+            ->add('city', TextType::class, [
+                'label' => 'Mesto/obec (nebude zverejnené)',
             ])
             ->add('allow_display', CheckboxType::class, [
                 'label' => 'Súhlasím so zverejnením môjho mena a povolania pri texte vyhlásenia na webstránke.',
