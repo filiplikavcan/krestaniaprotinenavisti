@@ -37,9 +37,7 @@ class Signature extends AbstractModel
             WHERE
                 petition = :petition
                     AND
-                verified_at IS NOT NULL
-                    AND
-                allow_display = 1', [
+                verified_at IS NOT NULL', [
             'petition' => [$petition, Types::STRING]
         ])->fetch()['signatures_count'];
     }
