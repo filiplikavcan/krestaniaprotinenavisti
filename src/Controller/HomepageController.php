@@ -7,6 +7,7 @@ use App\Form\Type\SignatureType;
 use App\Model\Signature;
 use App\Service\ListService;
 use Doctrine\DBAL\DBALException;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class HomepageController extends AbstractController
     {
     }
 
-    public function index(Request $request, Signature $signatureModel, MailerInterface $mailer, string $slug = '')
+    public function index(Request $request, Signature $signatureModel, MailerInterface $mailer, Recaptcha3Validator $recaptcha3Validator, string $slug = '')
     {
         $currentList = $this->getList('');
         $list = $this->getList($slug);
@@ -34,13 +35,16 @@ class HomepageController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $formData = $form->getData();
-                $formData->setPetition($list['slug']);
-                $signature = $signatureModel->insert($formData);
 
-                $this->sendVerificationEmail($signature, $mailer);
+                if ($recaptcha3Validator->getLastResponse()->getScore() > 0.6) {
+                    $formData = $form->getData();
+                    $formData->setPetition($list['slug']);
+                    $signature = $signatureModel->insert($formData);
 
-                return $this->redirect($this->generateUrl('thank_you'));
+                    $this->sendVerificationEmail($signature, $mailer);
+
+                    return $this->redirect($this->generateUrl('thank_you'));
+                }
             }
         }
 
