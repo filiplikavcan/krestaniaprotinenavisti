@@ -3,6 +3,8 @@
 namespace App\Form\Type;
 
 use App\Entity\Signature;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -28,6 +30,12 @@ class SignatureType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('captcha', Recaptcha3Type::class, [
+                'constraints' => new Recaptcha3(),
+                'action_name' => 'homepage',
+//                'script_nonce_csp' => $nonceCSP,
+                'locale' => 'sk',
+            ])
             ->add('first_name', TextType::class, [
                 'label' => 'Krstné meno',
             ])

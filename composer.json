@@ -10,6 +10,7 @@
         "doctrine/doctrine-bundle": "^2",
         "doctrine/doctrine-migrations-bundle": "^2",
         "doctrine/orm": "^2",
+        "karser/karser-recaptcha3-bundle": "^0.2.0",
         "optimaize/nameapi-client-php": "^5.0",
         "symfony/apache-pack": "^1.0",
         "symfony/console": "5.*",
